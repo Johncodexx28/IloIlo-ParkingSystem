@@ -1,0 +1,45 @@
+import mongoose from "mongoose";
+
+const partnerCompanySchema = new mongoose.Schema(
+  {
+    companyName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+
+    role: {
+      type: String,
+      default: "partner",
+    },
+    address: String,
+    contactNumber: String,
+    parkingLots: [{ type: mongoose.Schema.Types.ObjectId, ref: "ParkingLot" }],
+    balance: { type: Number, default: 0 },
+
+    logo: {
+      type: String,
+      default: "default_logo.png",
+    },
+
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    resetPasswordToken: String,
+    resetPasswordExpiresAt: Date,
+    verificationToken: String,
+    verificationTokenExpiresAt: Date,
+  },
+  { timestamps: true }
+);
+
+export const PartnerCompany = mongoose.model("PartnerCompany", partnerCompanySchema);
