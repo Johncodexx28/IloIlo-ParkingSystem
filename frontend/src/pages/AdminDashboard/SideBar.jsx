@@ -48,7 +48,7 @@ const SideBar = () => {
             }
           >
             {link.icon}
-            <span>{link.name}</span>
+            <span className="text-sm">{link.name}</span>
           </NavLink>
         ))}
       </nav>

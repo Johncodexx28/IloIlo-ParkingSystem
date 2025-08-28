@@ -13,5 +13,5 @@ export const transporter = nodemailer.createTransport({
 
 export const sender = {
   email: process.env.NODEMAILER_USER,
-  name: "PhinmaSLMS",
+  name: "ParkLink Team",
 };

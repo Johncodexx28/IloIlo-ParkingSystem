@@ -2,11 +2,7 @@ import logo from "../assets/parking-sign.png";
 
 const Navbar = () => {
   return (
-<<<<<<< HEAD
-    <div className="w-full base-300 shadow-sm ">
-=======
-    <div className="w-full bg-gray-100 shadow-sm">
->>>>>>> 3a60f013f5259fd740b8ad6be3587f57f29d92f0
+    <div className="w-full bg-[#ffffff] shadow-sm">
       <div className="navbar max-w-7xl mx-auto px-4">
         <div className="navbar-start">
           {/* Mobile Dropdown */}
