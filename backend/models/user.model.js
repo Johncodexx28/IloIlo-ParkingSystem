@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    fullName: {
+    fullname: {
       type: String,
       required: true,
     },
@@ -19,14 +19,19 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    vehicle: {
-      plateNumber: { type: String, required: true },
-      type: {
-        type: String,
-        enum: ["car", "motorcycle", "truck"],
-        required: true,
+    rfidTag: { type: String, unique: true, sparse: true },
+    vehicles: [
+      {
+        plateNumber: {
+          type: String,
+          sparse: true,
+        },
+        type: {
+          type: String,
+          enum: ["car", "motorcycle", "truck"],
+        },
       },
-    },
+    ],
     bookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
     isVerified: {
       type: Boolean,
@@ -37,7 +42,7 @@ const userSchema = new mongoose.Schema(
     verificationToken: String,
     verificationTokenExpiresAt: Date,
   },
-  { timestamps: true } //created at and updated at will be automatically added into the document
+  { timestamps: true } 
 );
 
 export const User = mongoose.model("User", userSchema);

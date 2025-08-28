@@ -98,10 +98,10 @@ const RevenueAnalytics = () => {
   );
 
   return (
-    <div className="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
+    <div className="max-w-7xl mx-auto bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Revenue & Analytics</h1>
+        <h1 className="text-2xl font-bold mb-6">Revenue & Analytics</h1>
         <div className="flex items-center gap-4">
           <Dropdown
             value={timeFilter}
@@ -163,29 +163,48 @@ const RevenueAnalytics = () => {
       {/* Partners Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-100">
         <div className="p-6 border-b border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Top Partners by Revenue</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-1">
+            Top Partners by Revenue
+          </h2>
           <p className="text-gray-600 text-sm">Partner performance ranking</p>
         </div>
-        
+
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-100">
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">Partner Name</th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">Monthly Revenue</th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">Avg Occupancy</th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">Growth Rate</th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">Actions</th>
+                <th className="text-left py-4 px-6 font-semibold text-gray-700">
+                  Partner Name
+                </th>
+                <th className="text-left py-4 px-6 font-semibold text-gray-700">
+                  Monthly Revenue
+                </th>
+                <th className="text-left py-4 px-6 font-semibold text-gray-700">
+                  Avg Occupancy
+                </th>
+                <th className="text-left py-4 px-6 font-semibold text-gray-700">
+                  Growth Rate
+                </th>
+                <th className="text-left py-4 px-6 font-semibold text-gray-700">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {partners.map((partner, index) => (
-                <tr key={index} className="border-b border-gray-50 hover:bg-gray-25 transition-colors">
+                <tr
+                  key={index}
+                  className="border-b border-gray-50 hover:bg-gray-25 transition-colors"
+                >
                   <td className="py-4 px-6">
-                    <div className="font-medium text-gray-900">{partner.name}</div>
+                    <div className="font-medium text-gray-900">
+                      {partner.name}
+                    </div>
                   </td>
                   <td className="py-4 px-6">
-                    <div className="font-medium text-gray-900">{Currency(partner.monthlyRevenue)}</div>
+                    <div className="font-medium text-gray-900">
+                      {Currency(partner.monthlyRevenue)}
+                    </div>
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-3">
@@ -195,21 +214,26 @@ const RevenueAnalytics = () => {
                           style={{ width: `${partner.occupancy}%` }}
                         ></div>
                       </div>
-                      <span className="text-sm font-medium text-gray-700 min-w-8">{partner.occupancy}%</span>
+                      <span className="text-sm font-medium text-gray-700 min-w-8">
+                        {partner.occupancy}%
+                      </span>
                     </div>
                   </td>
                   <td className="py-4 px-6">
-                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                      partner.isPositive 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
-                    }`}>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                        partner.isPositive
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
                       {partner.isPositive ? (
                         <TrendingUp size={12} />
                       ) : (
                         <TrendingDown size={12} />
                       )}
-                      {partner.isPositive ? '+' : ''}{partner.growthRate}%
+                      {partner.isPositive ? "+" : ""}
+                      {partner.growthRate}%
                     </span>
                   </td>
                   <td className="py-4 px-6">
@@ -223,7 +247,6 @@ const RevenueAnalytics = () => {
           </table>
         </div>
       </div>
-    
     </div>
   );
 };

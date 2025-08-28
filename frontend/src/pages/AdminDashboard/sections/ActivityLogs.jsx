@@ -1,48 +1,60 @@
-import { useState } from 'react';
-import { Search, Filter, Download, ChevronDown, Car, CreditCard, LogOut, Calendar, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
+import { useState } from "react";
+import {
+  Search,
+  Filter,
+  Download,
+  ChevronDown,
+  Car,
+  CreditCard,
+  LogOut,
+  Calendar,
+  AlertCircle,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
 
 const ActivityLogs = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('All Activities');
-  const [timeFilter, setTimeFilter] = useState('Today');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("All Activities");
+  const [timeFilter, setTimeFilter] = useState("Today");
 
   // Sample activity data
   const activities = [
     {
       id: 1,
-      timestamp: '1/15/2024, 3:30:45 PM',
-      type: 'Entry',
-      vehicleId: 'ABC-123',
-      user: 'Juan Dela Cruz',
-      location: 'SM City Iloilo - Gate A',
-      spot: 'Spot: A-025',
+      timestamp: "1/15/2024, 3:30:45 PM",
+      type: "Entry",
+      vehicleId: "ABC-123",
+      user: "Juan Dela Cruz",
+      location: "SM City Iloilo - Gate A",
+      spot: "Spot: A-025",
       amount: null,
-      status: 'Success',
-      details: 'Vehicle entered parking lot',
+      status: "Success",
+      details: "Vehicle entered parking lot",
       icon: Car,
-      iconColor: 'text-green-600'
+      iconColor: "text-green-600",
     },
-      {
+    {
       id: 2,
-      timestamp: '1/15/2024, 3:30:45 PM',
-      type: 'Exit',
-      vehicleId: 'ABC-123',
-      user: 'Juan Dela Cruz',
-      location: 'SM City Iloilo - Gate A',
-      spot: 'Spot: A-025',
+      timestamp: "1/15/2024, 3:30:45 PM",
+      type: "Exit",
+      vehicleId: "ABC-123",
+      user: "Juan Dela Cruz",
+      location: "SM City Iloilo - Gate A",
+      spot: "Spot: A-025",
       amount: null,
-      status: 'Failed',
-      details: 'Vehicle entered parking lot',
+      status: "Failed",
+      details: "Vehicle entered parking lot",
       icon: Car,
-      iconColor: 'text-green-600'
+      iconColor: "text-green-600",
     },
   ];
 
   const getStatusBadge = (status) => {
-    const baseClasses = 'px-3 py-1 rounded-full text-xs font-medium';
-    if (status === 'Success') {
+    const baseClasses = "px-3 py-1 rounded-full text-xs font-medium";
+    if (status === "Success") {
       return `${baseClasses} bg-green-100 text-green-800`;
-    } else if (status === 'Failed') {
+    } else if (status === "Failed") {
       return `${baseClasses} bg-red-100 text-red-800`;
     }
     return `${baseClasses} bg-gray-100 text-gray-800`;
@@ -50,13 +62,13 @@ const ActivityLogs = () => {
 
   const getTypeIcon = (type) => {
     switch (type) {
-      case 'Entry':
+      case "Entry":
         return <Car className="w-4 h-4" />;
-      case 'Exit':
+      case "Exit":
         return <LogOut className="w-4 h-4" />;
-      case 'Payment':
+      case "Payment":
         return <CreditCard className="w-4 h-4" />;
-      case 'Reservation':
+      case "Reservation":
         return <Calendar className="w-4 h-4" />;
       default:
         return <AlertCircle className="w-4 h-4" />;
@@ -65,34 +77,35 @@ const ActivityLogs = () => {
 
   const getTypeColor = (type) => {
     switch (type) {
-      case 'Entry':
-        return 'text-green-600 bg-green-50';
-      case 'Exit':
-        return 'text-blue-600 bg-blue-50';
-      case 'Payment':
-        return 'text-purple-600 bg-purple-50';
-      case 'Reservation':
-        return 'text-orange-600 bg-orange-50';
+      case "Entry":
+        return "text-green-600 bg-green-50";
+      case "Exit":
+        return "text-blue-600 bg-blue-50";
+      case "Payment":
+        return "text-purple-600 bg-purple-50";
+      case "Reservation":
+        return "text-orange-600 bg-orange-50";
       default:
-        return 'text-gray-600 bg-gray-50';
+        return "text-gray-600 bg-gray-50";
     }
   };
 
-  const filteredActivities = activities.filter(activity =>
-    activity.vehicleId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    activity.user.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    activity.location.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredActivities = activities.filter(
+    (activity) =>
+      activity.vehicleId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      activity.user.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      activity.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Activity Logs</h1>
+          <h1 className="text-2xl font-bold mb-6">Activity Logs</h1>
           <div className="flex gap-3">
             <div className="relative">
-              <select 
+              <select
                 value={timeFilter}
                 onChange={(e) => setTimeFilter(e.target.value)}
                 className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -114,7 +127,9 @@ const ActivityLogs = () => {
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Total Activities</h3>
+            <h3 className="text-sm font-medium text-gray-500 mb-2">
+              Total Activities
+            </h3>
             <p className="text-3xl font-bold text-gray-900">8</p>
             <p className="text-xs text-gray-500 mt-1">Last 24 hours</p>
           </div>
@@ -155,7 +170,7 @@ const ActivityLogs = () => {
             </div>
             <div className="flex gap-3">
               <div className="relative">
-                <select 
+                <select
                   value={selectedFilter}
                   onChange={(e) => setSelectedFilter(e.target.value)}
                   className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -179,32 +194,59 @@ const ActivityLogs = () => {
         {/* Activity Table */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
           <div className="px-6 py-4 border-b border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
-            <p className="text-sm text-gray-500">Real-time log of all system activities</p>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Recent Activity
+            </h2>
+            <p className="text-sm text-gray-500">
+              Real-time log of all system activities
+            </p>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Timestamp</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle ID</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Timestamp
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Type
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Vehicle ID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    User
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Location
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Amount
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Details
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredActivities.map((activity) => (
-                  <tr key={activity.id} className="hover:bg-gray-50 transition-colors duration-150">
+                  <tr
+                    key={activity.id}
+                    className="hover:bg-gray-50 transition-colors duration-150"
+                  >
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {activity.timestamp}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${getTypeColor(activity.type)}`}>
+                      <div
+                        className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${getTypeColor(
+                          activity.type
+                        )}`}
+                      >
                         {getTypeIcon(activity.type)}
                         {activity.type}
                       </div>
@@ -218,11 +260,13 @@ const ActivityLogs = () => {
                     <td className="px-6 py-4 text-sm text-gray-900">
                       <div>
                         <div className="font-medium">{activity.location}</div>
-                        <div className="text-gray-500 text-xs">{activity.spot}</div>
+                        <div className="text-gray-500 text-xs">
+                          {activity.spot}
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {activity.amount || '-'}
+                      {activity.amount || "-"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={getStatusBadge(activity.status)}>
@@ -242,21 +286,35 @@ const ActivityLogs = () => {
         {/* Live Activity Feed */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-900">Live Activity Feed</h2>
-            <p className="text-sm text-gray-500">Real-time updates from all parking locations</p>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Live Activity Feed
+            </h2>
+            <p className="text-sm text-gray-500">
+              Real-time updates from all parking locations
+            </p>
           </div>
-          
+
           <div className="divide-y divide-gray-100">
             {activities.slice(0, 4).map((activity) => (
-              <div key={activity.id} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-150">
+              <div
+                key={activity.id}
+                className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-150"
+              >
                 <div className="flex items-center gap-4">
-                  <div className={`p-2 rounded-full ${getTypeColor(activity.type)}`}>
+                  <div
+                    className={`p-2 rounded-full ${getTypeColor(
+                      activity.type
+                    )}`}
+                  >
                     {getTypeIcon(activity.type)}
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium text-gray-900">{activity.details}</h4>
+                    <h4 className="text-sm font-medium text-gray-900">
+                      {activity.details}
+                    </h4>
                     <p className="text-xs text-gray-500">
-                      {activity.user} • {activity.location} • {activity.timestamp}
+                      {activity.user} • {activity.location} •{" "}
+                      {activity.timestamp}
                     </p>
                   </div>
                 </div>
