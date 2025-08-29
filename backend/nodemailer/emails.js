@@ -26,7 +26,7 @@ export const sendWelcomeEmail = async (email, name) => {
 
     const info = await sendEmail(
       email,
-      "Welcome to P Parking 🎉",
+      "Welcome to P-Parking 🎉",
       WELCOME_EMAIL_TEMPLATE.replace("{userName}", name).replace(
         "{dashboardURL}",
         dashboardURL

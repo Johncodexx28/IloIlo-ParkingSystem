@@ -53,7 +53,7 @@ const Navbar = () => {
               className="w-8 h-8 object-contain"
             />
             <h1 className="font-bold text-lg text-black  hidden sm:block">
-              IloIlo ParkLink
+              P-Parking IloIlo
             </h1>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const parkingLotSchema = new mongoose.Schema({
-  name: {
+  LotName: {
     type: String,
     required: true,
   },
@@ -14,6 +14,10 @@ const parkingLotSchema = new mongoose.Schema({
     required: true,
   },
   availableSlots: {
+    type: Number,
+    required: true,
+  },
+  hourlyRate: {
     type: Number,
     required: true,
   },

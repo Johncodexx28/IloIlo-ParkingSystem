@@ -5,16 +5,17 @@ const Hero = () => {
   return (
     <section className="min-h-screen flex flex-col justify-center px-6 pt-20 md:pt-28 ">
       <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto w-full pd-20">
-
         {/* Left content */}
         <div className="text-center lg:text-left">
           <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-            Find <span className="text-error">Reserve</span> & Pay <br className="hidden md:block" />
+            Find <span className="text-error">Reserve</span> & Pay{" "}
+            <br className="hidden md:block" />
             for Parking in <span className="text-error">Iloilo City</span>
           </h1>
 
           <p className="mt-6 text-lg text-gray-600">
-            Connecting drivers, parking spaces, and businesses anytime, anywhere.
+            Connecting drivers, parking spaces, and businesses anytime,
+            anywhere.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
@@ -43,14 +44,12 @@ const Hero = () => {
       </div>
 
       {/* Features Section */}
-  
+
       <section className="px-6 py-16 mt-16 bg-gray-50 w-full">
-
-
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-            Why Choose <span className="text-error">ParkLink?</span>
+            Why Choose <span className="text-error">P-Parking?</span>
           </h2>
           <p className="mt-4 text-gray-600 text-base md:text-lg">
             Experience the future of parking with our comprehensive solution
