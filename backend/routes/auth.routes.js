@@ -6,32 +6,35 @@ import {
   logout,
   login_partner,
   signup_partner,
-  logout_partner,
   verifyEmail,
+  resetPassword,
+  checkAuth,
+  forgotPassword,
 } from "../controllers/auth.controller.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 
+const router = express.Router();
 
 // User Routes
 
-const router = express.Router();
+router.post("/check-auth", checkAuth, verifyToken);
+router.post("/dashboard", checkAuth, verifyToken);
+
 router.post("/login", login);
 router.post("/verify-email", verifyEmail);
 router.post("/signup", signup);
 router.post("/logout", logout);
+router.post("/reset-password/:token", resetPassword);
+router.post("/forgot-password", forgotPassword);
 
 
-
-
-
-
-
-
-
+//Admin Routes
+router.post("/login-admin", login);
+router.post("/signup-admin", signup);
 
 // Partner Routes
-
 router.post("/login-partner", login_partner);
 router.post("/signup-partner", signup_partner);
-router.post("/logout-partner", logout_partner);
+
 
 export default router;
