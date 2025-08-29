@@ -1,5 +1,5 @@
 import { TriangleAlert, Eye, ShieldCheck } from "lucide-react";
-import React from "react";
+import react from "react";
 import {
   LineChart,
   Line,
@@ -220,15 +220,15 @@ const DashboardHome = () => {
 
           <div className="space-y-2">
             <div className="p-3 rounded-lg bg-red-100 text-red-700 flex items-center gap-2">
-              <TriangleAlert className="text-warning" />
+              <TriangleAlert className="text-red-600" size={18} />
               Lot B sensor malfunction - 3 spots affected
             </div>
             <div className="p-3 rounded-lg bg-yellow-100 text-yellow-700 flex items-center gap-2">
-              <Eye className="text-black" />
+              <Eye className="text-yellow-600" size={18} />
               Lot C approaching full capacity (95%)
             </div>
             <div className="p-3 rounded-lg bg-green-100 text-green-700 flex items-center gap-2">
-             <ShieldCheck className="text-green-600" />
+              <ShieldCheck className="text-green-600" size={18} />
               All payment systems operational
             </div>
           </div>

@@ -3,8 +3,6 @@ import Sidebar from "../layouts/SideBar";
 
 
 
-
-
 export default function PartnerDashboard() {
   return (
     <div>
