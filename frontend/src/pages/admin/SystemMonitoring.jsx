@@ -141,8 +141,8 @@ function SystemMonitoring() {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold mb-6">System Monitoring</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold ">System Monitoring</h1>
         <div className="flex gap-3 items-center">
           <span className="px-3 py-1 bg-green-500 text-white text-sm rounded-full">
             System Healthy

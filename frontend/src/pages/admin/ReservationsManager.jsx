@@ -126,8 +126,8 @@ const ReservationsManagement = () => {
   return (
     <div className=" bg-gray-50 min-h-screen">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold mb-6">Reservations Management</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold ">Reservations Management</h1>
         <button className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-colors">
           <Plus size={20} />
           Manual Reservation

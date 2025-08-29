@@ -100,8 +100,8 @@ const RevenueAnalytics = () => {
   return (
     <div className="max-w-7xl mx-auto bg-gray-50 min-h-screen">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold mb-6">Revenue & Analytics</h1>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl font-bold ">Revenue & Analytics</h1>
         <div className="flex items-center gap-4">
           <Dropdown
             value={timeFilter}
