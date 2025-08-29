@@ -9,7 +9,9 @@ import {
   sendWelcomeEmail,
 } from "../nodemailer/emails.js";
 
-import { User } from "../models/user.model.js";
+import { User} from "../models/user.model.js";
+
+// User Auth Controllers
 
 export const signup = async (req, res) => {
   const { email, password, fullname, phone } = req.body;
@@ -32,6 +34,7 @@ export const signup = async (req, res) => {
       password: hashedPassword,
       fullname,
       phone,
+      rfidTag: null,
       verificationToken,
       verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000,
     });
@@ -56,13 +59,81 @@ export const signup = async (req, res) => {
   }
 };
 
+export const verifyEmail = async (req, res) => {
+  const { code } = req.body;
+
+  try {
+    const user = await User.findOne({
+      verificationToken: code,
+      verificationTokenExpiresAt: { $gt: Date.now() },
+    });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "Invalid or Expired verification code" });
+    }
+
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.verificationTokenExpiresAt = undefined;
+    await user.save();
+
+    await sendWelcomeEmail(user.email, user.fullname);
+
+    res.status(200).json({
+      success: true,
+      message: "Email verified successfully",
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+};
+
 export const login = async (req, res) => {
-  res.send("Signup route");
+    const { email, password } = req.body;
+    try{
+      const user = await User.findOne({ email });
+      if(!user){
+        return res.status(400).json({ message: "Invalid credentials" });
+      }
+      const isPasswordValid = await bcryptjs.compare(password, user.password);
+      if(!isPasswordValid){
+        return res.status(400).json({ message: "Invalid credentials" });
+      }
+
+      generateTokenAndSetCookie(res, user._id);
+
+      user.lastLogin = new Date();
+      await user.save();
+      
+      res.status(200).json({
+        success: true,
+        message: "Logged in successfully",
+        user: {
+          ...user._doc,
+          password: undefined,
+        },
+      });
+
+    }catch (error) {
+      console.error(error);
+      res.status(500).send("Server error");
+    }
 };
 
 export const logout = async (req, res) => {
-  res.send("Signup route");
+  res.clearCookie("token");
+  res.status(200).json({ succes: true, message: "Logged out successfully" });
 };
+
+
+
+// Partner Company Auth Controllers
 
 export const signup_partner = async (req, res) => {
   const { email, password, name } = req.body;
