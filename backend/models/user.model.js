@@ -15,11 +15,19 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      default: "user",
+    },
     phone: {
       type: String,
       required: true,
     },
-    rfidTag: { type: String, unique: true, sparse: true },
+    rfidTag: {
+      type: String,
+      unique: true,
+      partialFilterExpression: { rfidTag: { $type: "string" } },
+    },
     bookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
     isVerified: {
       type: Boolean,

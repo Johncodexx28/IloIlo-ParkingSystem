@@ -22,9 +22,9 @@ const partnerCompanySchema = new mongoose.Schema(
     },
     address: String,
     contactNumber: String,
-    parkingLots: [{ type: mongoose.Schema.Types.ObjectId, ref: "ParkingLot" }],
+    parkingSpots: [{ type: mongoose.Schema.Types.ObjectId, ref: "ParkingLot" }],
     balance: { type: Number, default: 0 },
-
+    revenue: { type: Number, default: 0 },
     logo: {
       type: String,
       default: "default_logo.png",

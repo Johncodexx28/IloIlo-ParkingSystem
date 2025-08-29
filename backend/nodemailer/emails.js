@@ -19,10 +19,18 @@ const sendEmail = async (to, subject, html) => {
 
 export const sendWelcomeEmail = async (email, name) => {
   try {
+    const dashboardURL =
+      process.env.NODE_ENV === "production"
+        ? process.env.HOMEPAGE_PROD_URL
+        : process.env.HOMEPAGE_DEV_URL;
+
     const info = await sendEmail(
       email,
-      "Welcome to PHINMA SLMS 🎉",
-      WELCOME_EMAIL_TEMPLATE.replace("{userName}", name)
+      "Welcome to P-Parking 🎉",
+      WELCOME_EMAIL_TEMPLATE.replace("{userName}", name).replace(
+        "{dashboardURL}",
+        dashboardURL
+      )
     );
     console.log(`✅ Welcome email sent to ${email}`, info);
     return info;
