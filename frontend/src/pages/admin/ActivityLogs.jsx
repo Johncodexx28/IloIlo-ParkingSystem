@@ -101,8 +101,8 @@ const ActivityLogs = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold mb-6">Activity Logs</h1>
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold">Activity Logs</h1>
           <div className="flex gap-3">
             <div className="relative">
               <select

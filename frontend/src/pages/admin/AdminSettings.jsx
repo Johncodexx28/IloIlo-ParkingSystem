@@ -97,10 +97,10 @@ const tabs = [
   );
 
   const renderGeneralTab = () => (
-    <div className="space-y-8">
+    <div className="space-y-8 ">
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-1">General Settings</h3>
-        <p className="text-sm text-gray-500 mb-6">Basic system configuration</p>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">General Settings</h3>
+        <p className="text-sm text-gray-500 ">Basic system configuration</p>
         
         <div className="grid grid-cols-2 gap-6">
           <div>
@@ -650,13 +650,13 @@ const tabs = [
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between ">
           <h1 className="text-2xl font-bold mb-6">Admin Settings</h1>
-          <button className="flex items-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
+          <button className="flex items-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors mb-3">
             <Settings className="w-4 h-4 mr-2" />
             Save Changes
           </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm">
+        <div className="bg-white rounded-lg shadow-sm ">
           {/* Tab Navigation */}
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8 px-6">
