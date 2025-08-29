@@ -8,7 +8,7 @@ import ActivityLogs from "../pages/admin/ActivityLogs.jsx";
 import AdminSettings from "../pages/admin/AdminSettings.jsx";
 
 export const adminRoutes = [
-  { path: "/Admin", element: <DashboardHome /> }, // default /Admin
+  { path: "/", element: <DashboardHome /> }, // default /Admin
   { path: "revenue", element: <RevenueAnalytics /> },
   { path: "parking", element: <ParkingManagement /> },
   { path: "reservations", element: <ReservationsManager /> },

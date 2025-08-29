@@ -6,8 +6,7 @@ import Sidebar from "../layouts/SideBar";
 export default function PartnerDashboard() {
   return (
     <div>
-      <Sidebar path="/Partner" />
-
+      <Sidebar />
       <h1>Partner Dashboard</h1>
     </div>
   );

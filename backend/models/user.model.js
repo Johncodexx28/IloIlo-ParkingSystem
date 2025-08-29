@@ -19,19 +19,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    rfidTag: { type: String, unique: true, sparse: true },
-    vehicles: [
-      {
-        plateNumber: {
-          type: String,
-          sparse: true,
-        },
-        type: {
-          type: String,
-          enum: ["car", "motorcycle", "truck"],
-        },
-      },
-    ],
+    rfidTag: {
+      type: String,
+      unique: true,
+      partialFilterExpression: { rfidTag: { $type: "string" } },
+    },
     bookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
     isVerified: {
       type: Boolean,
@@ -42,7 +34,7 @@ const userSchema = new mongoose.Schema(
     verificationToken: String,
     verificationTokenExpiresAt: Date,
   },
-  { timestamps: true } 
+  { timestamps: true }
 );
 
 export const User = mongoose.model("User", userSchema);

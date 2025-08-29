@@ -1,5 +1,4 @@
 import { TriangleAlert, Eye, ShieldCheck } from "lucide-react";
-import react from "react";
 import {
   LineChart,
   Line,
