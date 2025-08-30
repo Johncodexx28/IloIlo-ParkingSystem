@@ -7,6 +7,7 @@ import {
   Activity, 
   Clock, 
   Settings 
+  
 } from "lucide-react";
 
 export const adminMenu = [
@@ -20,9 +21,14 @@ export const adminMenu = [
   { name: "Settings", path: "/Admin/settings", icon: <Settings size={18} /> },
 ];
 
-// export const partnerMenu = [
-//   { name: "Dashboard Home", path: "/Partner", icon: <Home size={18} /> },
-//   { name: "Reservations", path: "/Partner/reservations", icon: <Calendar size={18} /> },
-//   { name: "Activity Logs", path: "/Partner/logs", icon: <Clock size={18} /> },
-//   { name: "Settings", path: "/Partner/settings", icon: <Settings size={18} /> },
-// ];
+export const partnerMenu = [
+  { name: "Dashboard Home", path: "/Partner", icon: <Home size={18} /> },
+  { name: "Activity Logs", path: "/Partner/logs", icon: <Clock size={18} /> },
+  { name: "Settings", path: "/Partner/settings", icon: <Settings size={18} /> },
+];
+
+export const userMenu = [
+  { name: "Dashboard Home", path: "/User", icon: <Home size={18} /> },
+  { name: "Activity Logs", path: "/User/logs", icon: <Clock size={18} /> },
+  { name: "Settings", path: "/User/settings", icon: <Settings size={18} /> },
+]
