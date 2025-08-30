@@ -30,16 +30,19 @@ const partnerCompanySchema = new mongoose.Schema(
       default: "default_logo.png",
     },
 
-    isVerified: {
+    isPartnerShipAccepted: {
       type: Boolean,
       default: false,
     },
-    resetPasswordToken: String,
-    resetPasswordExpiresAt: Date,
     verificationToken: String,
     verificationTokenExpiresAt: Date,
+    resetPasswordToken: String,
+    resetPasswordExpiresAt: Date,
   },
   { timestamps: true }
 );
 
-export const PartnerCompany = mongoose.model("PartnerCompany", partnerCompanySchema);
+export const PartnerCompany = mongoose.model(
+  "PartnerCompany",
+  partnerCompanySchema
+);

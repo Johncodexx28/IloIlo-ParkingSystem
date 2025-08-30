@@ -10,6 +10,8 @@ import {
   resetPassword,
   checkAuth,
   forgotPassword,
+  verify_partner,
+  partnership_approval,
 } from "../controllers/auth.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
@@ -27,14 +29,14 @@ router.post("/logout", logout);
 router.post("/reset-password/:token", resetPassword);
 router.post("/forgot-password", forgotPassword);
 
-
 //Admin Routes
 router.post("/login-admin", login);
 router.post("/signup-admin", signup);
+router.post("/admin/partnership-approval", partnership_approval);
 
 // Partner Routes
 router.post("/login-partner", login_partner);
 router.post("/signup-partner", signup_partner);
-
+router.post("/partner-verify", verify_partner);
 
 export default router;

@@ -7,9 +7,13 @@ import {
   sendResetSuccessEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
+  sendPartnerShipEmail,
+  sendPartnerShipWelcomeEmail,
+  sendApprovalEmail,
 } from "../nodemailer/emails.js";
 
 import { User } from "../models/user.model.js";
+import { PartnerCompany } from "../models/partnerCompany.model.js";
 
 // User Auth Controllers
 
@@ -220,11 +224,49 @@ export const checkAuth = async (req, res) => {
 // Partner Company Auth Controllers
 
 export const signup_partner = async (req, res) => {
-  const { email, password, companyName } = req.body;
+  const { companyName, email, password, address, contactNumber } = req.body;
 
   try {
+    if (!companyName || !email || !password || !address || !contactNumber) {
+      throw new Error("Please provide all required fields");
+    }
+
+    const partnerAlreadyExists = await PartnerCompany.findOne({ email });
+    if (partnerAlreadyExists) {
+      return res
+        .status(400)
+        .json({ message: "Partner Company already exists" });
+    }
+
+    const hashedPassword = await bcryptjs.hash(password, 10);
+
+    const partnerCompany = new PartnerCompany({
+      companyName,
+      email,
+      password: hashedPassword,
+      address,
+      contactNumber,
+    });
+
+    await partnerCompany.save();
+
+    // pass token into email
+    await sendPartnerShipEmail(
+      partnerCompany.email,
+      partnerCompany.companyName
+    );
+
+    res.status(201).json({
+      success: true,
+      message:
+        "Partner Company created successfully. Please verify your email.",
+      partnerCompany: {
+        ...partnerCompany._doc,
+        password: undefined,
+      },
+    });
   } catch (error) {
-    console.error(error);
+    console.error("❌ Error in signup_partner:", error);
     res.status(500).send("Server error");
   }
 };
@@ -233,3 +275,69 @@ export const login_partner = async (req, res) => {
   res.send("Signup route partner company");
 };
 
+export const verify_partner = async (req, res) => {
+  const { code } = req.body;
+
+  try {
+    const partner = await PartnerCompany.findOne({
+      verificationToken: code,
+      verificationTokenExpiresAt: { $gt: Date.now() }, // not expired
+    });
+
+    if (!partner) {
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired verification code." });
+    }
+
+    partner.isPartnerShipAccepted = true;
+    partner.verificationToken = undefined;
+    partner.verificationTokenExpiresAt = undefined;
+    await partner.save();
+
+    await sendPartnerShipWelcomeEmail(partner.email, partner.companyName);
+
+    res.status(200).json({
+      success: true,
+      message:
+        "Your partnership has been verified successfully. You can now log in.",
+    });
+  } catch (error) {
+    console.error("❌ Error in verify_partner:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+//Admin Controllers
+export const partnership_approval = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const partner = await PartnerCompany.findById(id);
+    if (!partner) return res.status(404).json({ message: "Partner not found" });
+
+    // generate a 6-digit code
+    const verificationToken = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+    partner.verificationToken = verificationToken;
+    partner.verificationTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+    partner.isPartnerShipAccepted = true;
+    await partner.save();
+
+    const loginLink = `${process.env.CLIENT_URL}/login`;
+    await sendApprovalEmail(
+      partner.email,
+      partner.companyName,
+      verificationToken,
+      loginLink
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Approval email sent successfully",
+    });
+  } catch (error) {
+    console.error("❌ Error in partnership_approval:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

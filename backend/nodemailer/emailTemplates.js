@@ -168,3 +168,140 @@ export const WELCOME_EMAIL_TEMPLATE = `
 </body>
 </html>
 `;
+
+export const PARTNERSHIP_REQUEST_EMAIL_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome to P-Parking Partnership Program!</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #121212; margin: 0; padding: 20px; color: #e5e5e5;">
+  <div style="max-width: 560px; margin: auto; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+
+    <div style="background: linear-gradient(135deg, #16a34a, #065f46); padding: 24px; text-align: center;">
+      <h1 style="color: white; margin: 0; font-size: 22px;">Welcome to P-Parking!</h1>
+      <p style="color: rgba(255,255,255,0.85); margin: 4px 0 0; font-size: 14px;">Your smarter way to park starts here</p>
+    </div>
+
+    <div style="padding: 24px;">
+      <p>Thank you for your interest in partnering with us, {companyName}!</p>
+      <p>
+          We have received your partnership request. Our team will carefully review your application, 
+          and you can expect to hear back from us within <strong>2-3 business days</strong>.
+      </p>
+
+       <p>
+          In the meantime, if you have any urgent inquiries or would like to provide additional details 
+          about your company, feel free to reply directly to this email.
+        </p>
+
+        <p style="margin-top: 20px;">
+          Best regards,<br>
+          <strong>The Partnership Team</strong><br>
+          P-Parking IloIlo
+        </p>
+
+    </div>
+
+    <div style="padding: 16px; text-align: center; background-color: #1a1a1a; border-top: 1px solid #333;">
+      <p style="font-size: 12px; color: #6b7280; margin: 0;">This is an automated message from P-Parking. Please do not reply.</p>
+    </div>
+  </div>
+</body>
+</html>
+
+`;
+
+export const PARTNERSHIP_VERIFICATION_EMAIL_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>P-Parking Partnership Approval</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #121212; margin: 0; padding: 20px; color: #e5e5e5;">
+  <div style="max-width: 560px; margin: auto; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #16a34a, #065f46); padding: 24px; text-align: center;">
+      <h1 style="color: white; margin: 0; font-size: 22px;">Partnership Approved 🎉</h1>
+      <p style="color: rgba(255,255,255,0.85); margin: 4px 0 0; font-size: 14px;">Welcome to the P-Parking Network</p>
+    </div>
+
+    <!-- Body -->
+    <div style="padding: 24px;">
+      <p>Dear {companyName},</p>
+      <p>
+        We’re excited to let you know that your partnership request has been <strong>approved</strong>!  
+        To activate your account and gain access to the partner dashboard, please verify your account using the information below:
+      </p>
+
+      <p style="margin: 20px 0; text-align: center;">
+        <span style="display: inline-block; background: #065f46; color: #fff; padding: 12px 24px; border-radius: 8px; font-size: 18px; letter-spacing: 1px;">
+          {verificationToken}
+        </span>
+      </p>
+
+      <p style="text-align: center; margin: 20px 0;">
+        <a href="{verificationLink}" style="display: inline-block; background: #16a34a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">
+          Verify Account
+        </a>
+      </p>
+
+      <p>This verification code and link will expire in <strong>24 hours</strong>.</p>
+
+      <p style="margin-top: 20px;">
+        We’re thrilled to have you join the <strong>P-Parking Partnership Program</strong>.  
+        Let’s make parking smarter together 🚗💨
+      </p>
+
+      <p>
+        Best regards,<br/>
+        <strong>The P-Parking Team</strong><br/>
+        IloIlo City
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div style="padding: 16px; text-align: center; background-color: #1a1a1a; border-top: 1px solid #333;">
+      <p style="font-size: 12px; color: #6b7280; margin: 0;">This is an automated message from P-Parking. Please do not reply.</p>
+    </div>
+  </div>
+</body>
+</html>
+`;
+
+export const PARTNERSHIP_WELCOME_EMAIL_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Partnership Verified! Welcome to P-Parking 🎉</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #121212; margin: 0; padding: 20px; color: #e5e5e5;">
+  <div style="max-width: 560px; margin: auto; background: #1e1e1e; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+    <div style="background: linear-gradient(135deg, #16a34a, #065f46); padding: 24px; text-align: center;">
+      <h1 style="color: white; margin: 0; font-size: 22px;">Partnership Verified! 🎉</h1>
+      <p style="color: rgba(255,255,255,0.85); margin: 4px 0 0; font-size: 14px;">Welcome to the P-Parking Network</p>
+    </div>
+    <div style="padding: 24px;">
+      <p>Dear {companyName},</p>
+      <p>Congratulations! Your partnership with P-Parking has been successfully verified. We’re excited to have you on board.</p>
+      <p>You can now log in to your partner dashboard and start managing your parking spots, reservations, and more.</p>
+      <div style="text-align: center; margin: 32px 0;">
+        <a href="{loginLink}" style="background-color: #16a34a; color: white; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: 500; display: inline-block;">Go to Partner Dashboard</a>
+      </div>
+      <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
+      <p>We look forward to a successful partnership!</p>
+      <p>Best regards,<br><strong style="color: #16a34a;">The P-Parking Team</strong></p>
+    </div>
+    <div style="padding: 16px; text-align: center; background-color: #1a1a1a; border-top: 1px solid #333;">
+      <p style="font-size: 12px; color: #6b7280; margin: 0;">This is an automated message from P-Parking. Please do not reply.</p>
+    </div>
+  </div>
+</body>
+</html>`;
