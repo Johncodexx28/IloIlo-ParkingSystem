@@ -1,24 +1,29 @@
 import mongoose from "mongoose";
 
-const bookingSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  parkingLot: { type: mongoose.Schema.Types.ObjectId, ref: "ParkingLot" },
-  partnerCompany: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "PartnerCompany",
-  },
+const bookingSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" , required: true },
+    parkingLot: { type: mongoose.Schema.Types.ObjectId, ref: "ParkingLot" },
+    parkingSpot: { type: mongoose.Schema.Types.ObjectId, ref: "ParkingSpot" },
+    bookingCode: { type: String, required: true, unique: true },
+    startTime: Date,
+    endTime: Date,
+    totalAmount: { type: Number, required: true, default: 0 },
 
-  startTime: Date,
-  endTime: Date,
-  totalAmount: { type: Number, required: true },
+    isPaid: { type: Boolean, default: false },
+    paymentMethod: {
+      type: String,
+      enum: ["cash", "card", "mobile"],
+      default: "cash",
+    },
 
-  commission: { type: Number, required: true }, // system cut
-  companyEarning: { type: Number, required: true }, // what partner gets
-  status: {
-    type: String,
-    enum: ["booked", "completed", "canceled"],
-    default: "booked",
+    status: {
+      type: String,
+      enum: ["booked", "completed", "canceled"],
+      default: "booked",
+    },
   },
-});
+  { timestamps: true }
+);
 
 export const Booking = mongoose.model("Booking", bookingSchema);

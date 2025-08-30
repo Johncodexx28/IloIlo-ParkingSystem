@@ -1,8 +1,11 @@
 import {
+  PARTNERSHIP_REQUEST_EMAIL_TEMPLATE,
+  PARTNERSHIP_VERIFICATION_EMAIL_TEMPLATE,
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
   WELCOME_EMAIL_TEMPLATE,
+  PARTNERSHIP_WELCOME_EMAIL_TEMPLATE,
 } from "./emailTemplates.js";
 import { sender, transporter } from "./nodemailer.config.js";
 
@@ -26,7 +29,7 @@ export const sendWelcomeEmail = async (email, name) => {
 
     const info = await sendEmail(
       email,
-      "Welcome to P Parking 🎉",
+      "Welcome to P-Parking 🎉",
       WELCOME_EMAIL_TEMPLATE.replace("{userName}", name).replace(
         "{dashboardURL}",
         dashboardURL
@@ -84,6 +87,63 @@ export const sendResetSuccessEmail = async (email) => {
     return info;
   } catch (error) {
     console.error(`❌ Error sending password reset success email:`, error);
+    throw error;
+  }
+};
+
+export const sendPartnerShipEmail = async (email, companyName) => {
+  try {
+    const info = await sendEmail(
+      email,
+      "Welcome to P-Parking Partnership Program 🎉",
+      PARTNERSHIP_REQUEST_EMAIL_TEMPLATE.replace("{companyName}", companyName)
+    );
+    console.log(`✅ Partnership welcome email sent to ${email}`, info);
+    return info;
+  } catch (error) {
+    console.error(
+      `❌ Failed to send partnership welcome email to ${email}:`,
+      error
+    );
+    throw error;
+  }
+};
+
+export const sendApprovalEmail = async (email,companyName,verificationToken, loginLink) => {
+  try {
+    const info = await sendEmail(
+      email,
+      "Your Partnership Request Has Been Approved ✅",
+      PARTNERSHIP_VERIFICATION_EMAIL_TEMPLATE.replace(
+        "{companyName}",
+        companyName
+      )
+        .replace("{verificationToken}", verificationToken)
+        .replace("{loginLink}", loginLink)
+    );
+
+    console.log(`✅ Approval email sent to ${email}`, info);
+    return info;
+  } catch (error) {
+    console.error(`❌ Failed to send approval email to ${email}:`, error);
+    throw error;
+  }
+};
+
+export const sendPartnerShipWelcomeEmail = async (email, companyName) => {
+  try {
+    const info = await sendEmail(
+      email,
+      "Partnership Verified! Welcome to P-Parking 🎉",
+      PARTNERSHIP_WELCOME_EMAIL_TEMPLATE.replace("{companyName}", companyName)
+    );
+    console.log(`✅ Partnership verified email sent to ${email}`, info);
+    return info;
+  } catch (error) {
+    console.error(
+      `❌ Failed to send partnership verified email to ${email}:`,
+      error
+    );
     throw error;
   }
 };

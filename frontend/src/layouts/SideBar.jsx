@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/parking-sign.png";
+
 import { adminMenu, partnerMenu, userMenu } from "../config/navigationConfig";
 
 const SideBar = () => {
@@ -25,6 +26,7 @@ const SideBar = () => {
       <div className="flex items-center gap-3 p-5 border-b border-gray-200">
         <img src={logo} alt="ParkLink Logo" className="w-8 h-8 object-contain" />
         <h1 className="text-lg font-bold">{title}</h1>
+
       </div>
 
       {/* Navigation Links */}
@@ -36,7 +38,11 @@ const SideBar = () => {
             end
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2 rounded-md font-medium transition 
-              ${isActive ? "bg-black text-white" : "text-gray-700 hover:bg-gray-100"}`
+              ${
+                isActive
+                  ? "bg-black text-white"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`
             }
           >
             {item.icon}
