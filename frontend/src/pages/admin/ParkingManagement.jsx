@@ -119,7 +119,7 @@ function ParkingManagement() {
   return (
     <div className="  bg-gray-50 min-h-screen">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 p-6">
         <h1 className="text-2xl font-bold ">Parking Management</h1>
         <div className="flex gap-3 items-center">
           <select
