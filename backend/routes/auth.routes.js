@@ -4,6 +4,7 @@ import {
   signup,
   login,
   logout,
+  login_admin,
   login_partner,
   signup_partner,
   verifyEmail,
@@ -13,16 +14,18 @@ import {
   verify_partner,
   partnership_approval,
 } from "../controllers/auth.controller.js";
+
 import { verifyToken } from "../middleware/verifyToken.js";
+import { requireRole } from "../middleware/requireRole.js";
 
 const router = express.Router();
 
+
+// Common routes
+router.get("/check-auth", verifyToken, checkAuth);
+
 // User Routes
-
-router.post("/check-auth", checkAuth, verifyToken);
-router.post("/dashboard", checkAuth, verifyToken);
-
-router.post("/login", login);
+router.post("/login",login);
 router.post("/verify-email", verifyEmail);
 router.post("/signup", signup);
 router.post("/logout", logout);
@@ -30,9 +33,8 @@ router.post("/reset-password/:token", resetPassword);
 router.post("/forgot-password", forgotPassword);
 
 //Admin Routes
-router.post("/login-admin", login);
-router.post("/signup-admin", signup);
-router.post("/admin/partnership-approval", partnership_approval);
+router.post("/login-admin", login_admin);
+router.post("/admin/partnership-approval", requireRole("admin"), partnership_approval);
 
 // Partner Routes
 router.post("/login-partner", login_partner);

@@ -14,6 +14,56 @@ import {
 
 import { User } from "../models/user.model.js";
 import { PartnerCompany } from "../models/partnerCompany.model.js";
+import { Admin } from "../models/admin.model.js";
+
+// Common Controllers
+
+export const checkAuth = async (req, res) => {
+  try {
+    let account = null;
+
+    switch (req.role) {
+      case "user":
+        if (req.userId)
+          account = await User.findById(req.userId).select("-password");
+        break;
+      case "partner":
+        if (req.partnerId) {
+          account = await Partner.findById(req.partnerId).select("-password");
+          if (account && !account.isPartnershipAccepted) {
+            return res.status(403).json({
+              success: false,
+              message: "Partnership not accepted yet",
+            });
+          }
+        }
+        break;
+      case "admin":
+        if (req.adminId)
+          account = await Admin.findById(req.adminId).select("-password");
+        break;
+      default:
+        return res
+          .status(401)
+          .json({ success: false, message: "Invalid role" });
+    }
+
+    if (!account)
+      return res
+        .status(404)
+        .json({ success: false, message: "Account not found" });
+
+    res.status(200).json({ success: true, role: req.role, account });
+  } catch (error) {
+    console.error("Error in checkAuth:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const logout = async (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ succes: true, message: "Logged out successfully" });
+};
 
 // User Auth Controllers
 
@@ -110,7 +160,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    generateTokenAndSetCookie(res, user._id);
+    generateTokenAndSetCookie(res, user._id, user.role);
 
     user.lastLogin = new Date();
     await user.save();
@@ -127,11 +177,6 @@ export const login = async (req, res) => {
     console.error(error);
     res.status(500).send("Server error");
   }
-};
-
-export const logout = async (req, res) => {
-  res.clearCookie("token");
-  res.status(200).json({ succes: true, message: "Logged out successfully" });
 };
 
 export const forgotPassword = async (req, res) => {
@@ -205,22 +250,6 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-export const checkAuth = async (req, res) => {
-  try {
-    const user = await User.findById(req.userId).select("-password");
-    if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User not found" });
-    }
-
-    res.status(200).json({ success: true, user });
-  } catch (error) {
-    console.log("Error in checkAuth ", error);
-    res.status(400).json({ success: false, message: error.message });
-  }
-};
-
 // Partner Company Auth Controllers
 
 export const signup_partner = async (req, res) => {
@@ -271,10 +300,6 @@ export const signup_partner = async (req, res) => {
   }
 };
 
-export const login_partner = async (req, res) => {
-  res.send("Signup route partner company");
-};
-
 export const verify_partner = async (req, res) => {
   const { code } = req.body;
 
@@ -308,7 +333,75 @@ export const verify_partner = async (req, res) => {
   }
 };
 
+export const login_partner = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const partner = await PartnerCompany.findOne({ email });
+    if (!partner) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+    const isPasswordValid = await bcryptjs.compare(password, partner.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+    if (!partner.isPartnerShipAccepted) {
+      return res.status(403).json({ message: "Partnership not accepted yet" });
+    }
+    generateTokenAndSetCookie(res, partner._id, partner.role);
+
+    partner.lastLogin = new Date();
+    await partner.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Logged in successfully",
+      partner: {
+        ...partner._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error in login_partner:", error);
+    res.status(500).send("Server error");
+  }
+};
+
 //Admin Controllers
+
+export const login_admin = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+    const isPasswordValid = await bcryptjs.compare(password, admin.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    generateTokenAndSetCookie(res, admin._id, admin.role);
+
+    admin.lastLogin = new Date();
+    await admin.save();
+    res.status(200).json({
+      success: true,
+      message: "Logged in successfully",
+      admin: {
+        ...admin._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error in login_admin:", error);
+    res.status(500).send("Server error");
+  }
+};
+
+
+
 export const partnership_approval = async (req, res) => {
   try {
     const { id } = req.body;

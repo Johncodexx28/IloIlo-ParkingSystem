@@ -29,10 +29,13 @@ const partnerCompanySchema = new mongoose.Schema(
       type: String,
       default: "default_logo.png",
     },
-
     isPartnerShipAccepted: {
       type: Boolean,
       default: false,
+    },
+    lastLogin: {
+      type: Date,
+      default: Date.now,
     },
     verificationToken: String,
     verificationTokenExpiresAt: Date,
