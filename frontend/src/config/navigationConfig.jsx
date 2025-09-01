@@ -6,7 +6,12 @@ import {
   Users, 
   Activity, 
   Clock, 
-  Settings 
+  Settings, 
+  Square,
+  CalendarCheck2,
+  PhilippinePeso,
+  CreditCard,
+  LifeBuoy
   
 } from "lucide-react";
 
@@ -23,8 +28,14 @@ export const adminMenu = [
 
 export const partnerMenu = [
   { name: "Dashboard Home", path: "/Partner", icon: <Home size={18} /> },
-  { name: "Activity Logs", path: "/Partner/logs", icon: <Clock size={18} /> },
-  { name: "Settings", path: "/Partner/settings", icon: <Settings size={18} /> },
+  { name: "Parking Lots", path: "/Partner/lots", icon: <Square size={18} /> },
+  { name: "Reservation", path: "/Partner/reservation", icon: <CalendarCheck2 size={18} /> },
+  { name: "Transaction", path: "/Partner/transaction", icon: <PhilippinePeso size={18} /> },
+  { name: "Customers", path: "/Partner/customers", icon: <Users size={18} /> },
+  { name: "RFID Card", path: "/Partner/rfid-card", icon: <CreditCard size={18} /> },
+  { name: "Reports", path: "/Partner/reports", icon: <BarChart2 size={18} /> },
+  { name: "Support", path: "/Partner/support", icon: <LifeBuoy size={18} /> },
+  { name: "Profile Settings", path: "/Partner/profile-settings", icon: <Settings size={18} /> },
 ];
 
 export const userMenu = [

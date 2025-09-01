@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   Plus,
   Users,
-  DollarSign,
+  PhilippinePeso,
   Car,
   TrendingUp,
   Eye,
@@ -118,7 +118,7 @@ const PartnersManagement = () => {
       case "Premium":
         return "bg-blue-100 text-blue-800";
       case "Standard":
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-400 text-gray-800";
       case "Trial":
         return "bg-yellow-100 text-yellow-800";
       default:
@@ -148,7 +148,7 @@ const PartnersManagement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 ">
+    <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
@@ -202,7 +202,7 @@ const PartnersManagement = () => {
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center">
-                <DollarSign className="w-5 h-5 text-gray-400 mr-2" />
+                <PhilippinePeso className="w-5 h-5 text-gray-400 mr-2" />
                 <h3 className="text-sm font-medium text-gray-500">
                   Total Revenue
                 </h3>

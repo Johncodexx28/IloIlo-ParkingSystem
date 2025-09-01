@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TrendingUp, TrendingDown, DollarSign, Activity, CreditCard, BarChart3, Download, ChevronDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, PhilippinePeso , Activity, CreditCard, BarChart3, Download, ChevronDown } from 'lucide-react';
 
 const RevenueAnalytics = () => {
   const [timeFilter, setTimeFilter] = useState('Last 30 Days');
@@ -98,7 +98,7 @@ const RevenueAnalytics = () => {
   );
 
   return (
-    <div className="max-w-7xl mx-auto bg-gray-50 min-h-screen">
+    <div className="max-w-7xl mx-auto bg-gray-50 min-h-screen p-6" >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold ">Revenue & Analytics</h1>
@@ -131,7 +131,7 @@ const RevenueAnalytics = () => {
           value="₱2,847,320"
           change="12.5%"
           changeText="from last month"
-          icon={DollarSign}
+          icon={PhilippinePeso }
           isPositive={true}
         />
         <MetricCard

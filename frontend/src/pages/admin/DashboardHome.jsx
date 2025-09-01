@@ -1,72 +1,12 @@
+import React from "react";
 import { TriangleAlert, Eye, ShieldCheck } from "lucide-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-} from "recharts";
+import IncomeChart from "../../components/Charts/AdminIncomeCharts";
+import OccupancyChart from "../../components/Charts/AdminOccupancyChart";
 
 const DashboardHome = () => {
-  // Income data from your chart
-  const incomeData = [
-    { date: "Jan 1", income: 9000, day: 1 },
-    { date: "Jan 2", income: 13000, day: 2 },
-    { date: "Jan 3", income: 10500, day: 3 },
-    { date: "Jan 4", income: 17000, day: 4 },
-    { date: "Jan 5", income: 12000, day: 5 },
-    { date: "Jan 6", income: 15000, day: 6 },
-    { date: "Jan 7", income: 18000, day: 7 },
-  ];
-
-  // Hourly occupancy data from your chart
-  const occupancyData = [
-    { hour: "7AM", occupancy: 15 },
-    { hour: "8AM", occupancy: 35 },
-    { hour: "9AM", occupancy: 55 },
-    { hour: "10AM", occupancy: 70 },
-    { hour: "11AM", occupancy: 85 },
-    { hour: "12PM", occupancy: 95 },
-    { hour: "1PM", occupancy: 98 },
-    { hour: "2PM", occupancy: 92 },
-    { hour: "3PM", occupancy: 88 },
-    { hour: "4PM", occupancy: 85 },
-    { hour: "5PM", occupancy: 90 },
-    { hour: "6PM", occupancy: 82 },
-    { hour: "7PM", occupancy: 65 },
-    { hour: "8PM", occupancy: 45 },
-    { hour: "9PM", occupancy: 25 },
-    { hour: "10PM", occupancy: 12 },
-  ];
-
-  const formatCurrency = (value) => {
-    return `₱${(value / 1000).toFixed(0)}k`;
-  };
-
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-white p-3 border rounded-lg shadow-lg">
-          <p className="font-medium">{label}</p>
-          <p className="text-green-600">
-            Income:{" "}
-            <span className="font-bold">
-              ₱{payload[0].value.toLocaleString()}
-            </span>
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Dashboard Overview</h1>
+      <h1 className="text-2xl font-bold mb-2 p-6">Dashboard Overview</h1>
 
       {/* Top Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -92,48 +32,16 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      {/* Middle Section */}
+      {/* Income + Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="bg-white p-4 rounded-xl shadow-sm md:col-span-2">
-          <div className="mb-3">
-            <h2 className="text-lg font-semibold">Income Overview</h2>
-            <p className="text-sm text-gray-500">
-              Revenue trends over the past 30 days
-            </p>
-          </div>
+          <h2 className="text-lg font-semibold mb-1">Income Overview</h2>
+          <p className="text-sm text-gray-500 mb-3">Revenue trends over the past 30 days</p>
           <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={incomeData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis
-                  dataKey="date"
-                  tick={{ fontSize: 12 }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis
-                  tickFormatter={formatCurrency}
-                  tick={{ fontSize: 12 }}
-                  axisLine={false}
-                  tickLine={false}
-                  domain={["dataMin - 1000", "dataMax + 1000"]}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Line
-                  type="monotone"
-                  dataKey="income"
-                  stroke="#10b981"
-                  strokeWidth={3}
-                  dot={{ fill: "#10b981", strokeWidth: 2, r: 4 }}
-                  activeDot={{ r: 6, fill: "#10b981" }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <IncomeChart />
           </div>
         </div>
+
         <div className="bg-white p-4 rounded-xl shadow-sm">
           <h2 className="text-lg font-semibold mb-3">Quick Stats</h2>
           <div className="space-y-2">
@@ -159,64 +67,19 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      {/* Heatmap + System Alerts */}
+      {/* Occupancy + Alerts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        {/* Hourly Occupancy Pattern */}
         <div className="bg-white p-4 rounded-xl shadow-sm">
-          <h2 className="text-lg font-semibold mb-1">
-            Hourly Occupancy Pattern
-          </h2>
-          <p className="text-sm text-gray-500 mb-3">
-            Average occupancy throughout the day
-          </p>
+          <h2 className="text-lg font-semibold mb-1">Hourly Occupancy Pattern</h2>
+          <p className="text-sm text-gray-500 mb-3">Average occupancy throughout the day</p>
           <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart
-                data={occupancyData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis
-                  dataKey="hour"
-                  tick={{ fontSize: 12 }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis
-                  tickFormatter={(value) => `${value}%`}
-                  tick={{ fontSize: 12 }}
-                  axisLine={false}
-                  tickLine={false}
-                  domain={[0, 100]}
-                />
-                <Tooltip
-                  formatter={(value) => [`${value}%`, "Occupancy"]}
-                  labelFormatter={(label) => `Time: ${label}`}
-                  contentStyle={{
-                    backgroundColor: "white",
-                    border: "1px solid #ccc",
-                    borderRadius: "8px",
-                  }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="occupancy"
-                  stroke="#10b981"
-                  fill="#86efac"
-                  strokeWidth={2}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
+            <OccupancyChart />
           </div>
         </div>
 
-        {/* System Alerts */}
         <div className="bg-white p-4 rounded-xl shadow-sm">
           <h2 className="text-lg font-semibold mb-1">System Alerts</h2>
-          <p className="text-sm text-gray-500 mb-3">
-            Important notifications requiring attention
-          </p>
-
+          <p className="text-sm text-gray-500 mb-3">Important notifications requiring attention</p>
           <div className="space-y-2">
             <div className="p-3 rounded-lg bg-red-100 text-red-700 flex items-center gap-2">
               <TriangleAlert className="text-red-600" size={18} />
@@ -234,7 +97,9 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      {/* Realtime Parking Status Section */}
+
+      {/* Realtime Parking Status */}
+      {/* keep same realtime cards from your code */}
       <div className="bg-white p-4 rounded-xl shadow-sm">
         <h2 className="text-lg font-semibold mb-1">Realtime Parking Status</h2>
         <p className="text-sm text-gray-500 mb-6">
