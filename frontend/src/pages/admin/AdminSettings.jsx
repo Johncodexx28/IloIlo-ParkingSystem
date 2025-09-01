@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings, CreditCard, Bell, Shield, Server, Car} from 'lucide-react';
+import { Settings, CreditCard, Bell, Shield, Server, Car, PhilippinePeso } from 'lucide-react';
 
 const AdminSettings = () => {
   const [activeTab, setActiveTab] = useState('General');
@@ -59,14 +59,11 @@ const AdminSettings = () => {
     performanceAnalytics: true
   });
 
-const PesoIcon = (props) => (
-  <span {...props} className="text-lg font-bold mx-2">₱</span>
-);
 
 const tabs = [
   { id: 'General', label: 'General', icon: Settings },
   { id: 'Parking', label: 'Parking', icon: Car },
-  { id: 'Payments', label: 'Payments', icon: PesoIcon },
+  { id: 'Payments', label: 'Payments', icon: PhilippinePeso },
   { id: 'Notifications', label: 'Notifications', icon: Bell },
   { id: 'Security', label: 'Security', icon: Shield },
   { id: 'System', label: 'System', icon: Server }
@@ -314,7 +311,7 @@ const tabs = [
             </div>
           <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <span className="w-5 h-5 mr-2 text-gray-500 font-bold text-lg">₱</span>
+            <PhilippinePeso className="w-5 h-5 mr-2 text-gray-500" />
             <span className="font-medium">Cash Payments</span>
           </div>
           <Toggle 
@@ -646,7 +643,7 @@ const tabs = [
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 ">
+    <div className="min-h-screen bg-gray-50 p-6 ">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between ">
           <h1 className="text-2xl font-bold mb-6">Admin Settings</h1>
