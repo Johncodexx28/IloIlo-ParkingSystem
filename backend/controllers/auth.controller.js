@@ -65,7 +65,7 @@ export const logout = async (req, res) => {
   res.status(200).json({ succes: true, message: "Logged out successfully" });
 };
 
-// User Auth Controllers2e
+// User Auth Controllers
 
 export const signup = async (req, res) => {
   const { email, password, fullname, phone } = req.body;
