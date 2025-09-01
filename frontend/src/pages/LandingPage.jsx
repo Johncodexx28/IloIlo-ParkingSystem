@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import Footer from "../components/Footer";
 
 const LandingPage = () => {
   return (
@@ -13,6 +14,7 @@ const LandingPage = () => {
       <div className="flex flex-1 items-center justify-center overflow-hidden pt-16">
         <Hero />
       </div>
+      <Footer />
     </div>
   );
 };

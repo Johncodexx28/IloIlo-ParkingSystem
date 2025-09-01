@@ -3,14 +3,14 @@ import Sidebar from "../layouts/SideBar";
 import { partnerRoutes } from "../config/routeConfig.jsx";
 import {partnerMenu} from "../config/navigationConfig.jsx";
 
-export default function AdminDashboard() {
+export default function PartnerDashboard() {
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       <Sidebar 
         links={partnerMenu} 
         title="Partner Dashboard"
       />
-      <div className="flex-1 p-6">
+      <div className="lg:ml-64 pt-16 lg:pt-6 px-6 pb-6">
         <Routes>
           {partnerRoutes.map((route, index) => (
             <Route 
