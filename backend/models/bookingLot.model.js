@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema(
   {
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" , required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     parkingLot: { type: mongoose.Schema.Types.ObjectId, ref: "ParkingLot" },
     parkingSpot: { type: mongoose.Schema.Types.ObjectId, ref: "ParkingSpot" },
     bookingCode: { type: String, required: true, unique: true },
@@ -19,9 +19,11 @@ const bookingSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["booked", "completed", "canceled"],
+      enum: ["booked", "active", "completed", "canceled"],
       default: "booked",
     },
+    checkedInAt: Date,
+    checkedOutAt: Date,
   },
   { timestamps: true }
 );

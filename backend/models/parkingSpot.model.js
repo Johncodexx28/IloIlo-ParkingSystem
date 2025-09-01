@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const parkingSpotSchema = new mongoose.Schema({
   lot: {
     type: mongoose.Schema.Types.ObjectId,
@@ -10,7 +12,7 @@ const parkingSpotSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["available", "reserved", "occupied", "unavailable"],
+    enum: ["available", "booked", "occupied", "unavailable"],
     default: "available",
   },
 });

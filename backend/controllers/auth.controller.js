@@ -65,7 +65,7 @@ export const logout = async (req, res) => {
   res.status(200).json({ succes: true, message: "Logged out successfully" });
 };
 
-// User Auth Controllers
+// User Auth Controllers2e
 
 export const signup = async (req, res) => {
   const { email, password, fullname, phone } = req.body;
@@ -399,8 +399,6 @@ export const login_admin = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
-
-
 
 export const partnership_approval = async (req, res) => {
   try {

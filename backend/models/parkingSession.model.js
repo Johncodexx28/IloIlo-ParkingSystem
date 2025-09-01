@@ -27,7 +27,4 @@ const parkingSessionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const ParkingSession = mongoose.model(
-  "ParkingSession",
-  parkingSessionSchema
-);
+export const ParkingSession = mongoose.model("ParkingSession", parkingSessionSchema);
