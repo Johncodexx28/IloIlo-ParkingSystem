@@ -40,6 +40,12 @@ export const partnerMenu = [
 
 export const userMenu = [
   { name: "Dashboard Home", path: "/User", icon: <Home size={18} /> },
-  { name: "Activity Logs", path: "/User/logs", icon: <Clock size={18} /> },
-  { name: "Settings", path: "/User/settings", icon: <Settings size={18} /> },
+  { name: "Find Parking", path: "/User/find-parking", icon: <Clock size={18} /> },
+  { name: "My Bookings", path: "/User/my-bookings", icon: <Settings size={18} /> },
+  { name: "Payment & Wallets", path: "/User/payment", icon: <Settings size={18} /> },
+  { name: "RFID Card", path: "/User/rfid", icon: <Settings size={18} /> },
+  { name: "History", path: "/User/history", icon: <Settings size={18} /> },
+  { name: "Help & Support", path: "/User/help-support", icon: <Settings size={18} /> },
+  { name: "Profile Settings", path: "/User/profile-settings", icon: <Settings size={18} /> },
+
 ]

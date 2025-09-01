@@ -1,7 +1,7 @@
 import React from 'react';
 import RevenueChart from '../../components/Charts/PartnerRevenueChart';
 import { 
-  Bell, RefreshCw, DollarSign, TrendingUp, MapPin, Calendar, Star, 
+  Bell, RefreshCw, PhilippinePeso, TrendingUp, MapPin, Calendar, Star, 
   CreditCard, QrCode, Plus, FileDown 
 } from 'lucide-react';
 
@@ -34,10 +34,10 @@ const Dashboard = () => {
         <div className="bg-white rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <DollarSign className="w-5 h-5 text-orange-500" />
+              <PhilippinePeso className="w-5 h-5 text-orange-500" />
               <span className="text-sm font-medium text-gray-600">Earnings Today</span>
             </div>
-            <DollarSign className="w-4 h-4 text-gray-400" />
+            <PhilippinePeso className="w-4 h-4 text-gray-400" />
           </div>
           <div className="space-y-2">
             <div className="text-3xl font-bold text-gray-900">₱8,450</div>

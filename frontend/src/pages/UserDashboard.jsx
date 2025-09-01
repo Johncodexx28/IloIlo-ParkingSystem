@@ -5,12 +5,12 @@ import {userMenu} from "../config/navigationConfig.jsx";
 
 export default function UserDashboard() {
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       <Sidebar 
         links={userMenu} 
         title="User Dashboard"
       />
-      <div className="flex-1 p-6">
+      <div className="lg:ml-64 pt-16 lg:pt-6 px-6 pb-6">
         <Routes>
           {userRoutes.map((route, index) => (
             <Route 

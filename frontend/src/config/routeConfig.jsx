@@ -16,8 +16,15 @@ import Reports from "../pages/partner/Reports.jsx";
 import Support from "../pages/partner/Support.jsx";
 import ProfileSettings from "../pages/partner/ProfileSettings.jsx";
 import UserDashboard from "../pages/user/UserDashboard.jsx";
-import Userlogs from "../pages/user/UserLogs.jsx";
-import UserSettings from "../pages/user/UserSettings.jsx";
+import FindParking from "../pages/user/FindParking.jsx";
+import MyBookings from "../pages/user/MyBooking.jsx";
+import Payment from "../pages/user/Payment.jsx";
+import Rfid from "../pages/user/Rfid.jsx";
+import History from "../pages/user/History.jsx";
+import HelpSupport from "../pages/user/Help&Support.jsx";
+import UserProfileSettings from "../pages/user/ProfileSetting.jsx";
+
+
 
 export const adminRoutes = [
   { path: "/", element: <DashboardHome /> }, // default /Admin
@@ -44,6 +51,11 @@ export const partnerRoutes = [
 
 export const userRoutes = [
   { path: "/", element: <UserDashboard /> }, // default /User
-  { path: "logs", element: <Userlogs /> },
-  { path: "settings", element: <UserSettings /> },
+  { path: "find-parking", element: <FindParking /> },
+  { path: "my-bookings", element: <MyBookings /> },
+  { path: "payment", element: <Payment /> },
+  { path: "rfid", element: <Rfid /> },
+  { path: "history", element: <History /> },
+  { path: "help-support", element: <HelpSupport /> },
+  { path: "profile-settings", element: <UserProfileSettings /> },
 ];
