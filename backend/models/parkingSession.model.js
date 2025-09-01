@@ -3,14 +3,12 @@ import mongoose from "mongoose";
 const parkingSessionSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    plateNumber: { type: String, required: true },
-
-    partnerCompany: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "PartnerCompany",
-    },
     parkingLot: { type: mongoose.Schema.Types.ObjectId, ref: "ParkingLot" },
-
+    parkingSpot: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ParkingSpot",
+      required: true,
+    },
     entryTime: { type: Date, default: Date.now },
     exitTime: { type: Date },
     duration: { type: Number },
