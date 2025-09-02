@@ -1,25 +1,12 @@
-<<<<<<< HEAD
 import { useState } from "react";
-import { useAuthStore } from "../../store/authStore";
 import {
   Calendar,
-  DollarSign,
+  PhilippinePeso,
   Heart,
   TrendingUp,
   MapPin,
   Clock,
   Phone,
-=======
-import React, { useState } from 'react';
-import { 
-  Calendar, 
-  PhilippinePeso, 
-  Heart, 
-  TrendingUp, 
-  MapPin, 
-  Clock, 
-  Phone, 
->>>>>>> 807ff9107a23a0a555337388f753a321b8340e67
   Navigation,
   Search,
   Bookmark,
