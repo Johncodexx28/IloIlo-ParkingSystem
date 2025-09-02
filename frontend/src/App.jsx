@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 import { Navigate, Routes, Route } from "react-router-dom";
+=======
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+
+>>>>>>> 807ff9107a23a0a555337388f753a321b8340e67
 import LandingPage from "./pages/LandingPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import PartnerDashboard from "./pages/PartnerDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import NotFoundPage from "./components/NotFoundPage.jsx";
+<<<<<<< HEAD
 import LoginPage from "./pages/LoginPage.jsx";
 import SignUpPage from "./pages/SignupPage.jsx";
 import EmailVerificationPage from "./pages/EmailVerificationPage.jsx";
@@ -112,5 +119,28 @@ export default function App() {
       {/* Catch-all */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
+=======
+import LoadingScreen from "./components/LoadingScreen"; // ⬅️ Import the loading screen
+
+export default function App() {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <>
+      {loading ? (
+        // Show loading screen first
+        <LoadingScreen onFinish={() => setLoading(false)} />
+      ) : (
+        // When loading is done, show routes
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/Admin/*" element={<AdminDashboard />} />
+          <Route path="/Partner/*" element={<PartnerDashboard />} />
+          <Route path="/User/*" element={<UserDashboard />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      )}  
+    </>
+>>>>>>> 807ff9107a23a0a555337388f753a321b8340e67
   );
 }
