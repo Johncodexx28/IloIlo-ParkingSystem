@@ -1,5 +1,5 @@
 import { UserPlus, MapPin, Car, CreditCard, Search } from "lucide-react";
-import ReserveModal from "./ReserveModal";
+import ReserveModal from "./Modals/ReserveModal";
 import Footer from "./Footer";
 
 const Hero = () => {

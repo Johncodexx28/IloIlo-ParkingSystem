@@ -7,7 +7,7 @@ import SystemMonitoring from "../pages/admin/SystemMonitoring.jsx";
 import ActivityLogs from "../pages/admin/ActivityLogs.jsx";
 import AdminSettings from "../pages/admin/AdminSettings.jsx";
 import PartnerDashboardHome from "../pages/partner/PartnerDashboardHome.jsx";
-import ParkingLots from "../pages/partner/ParkingLots.jsx";  
+import ParkingLots from "../pages/partner/ParkingLots.jsx";
 import Reservation from "../pages/partner/Reservation.jsx";
 import Transaction from "../pages/partner/Transaction.jsx";
 import Customers from "../pages/partner/Customers.jsx";
@@ -23,8 +23,7 @@ import Rfid from "../pages/user/Rfid.jsx";
 import History from "../pages/user/History.jsx";
 import HelpSupport from "../pages/user/Help&Support.jsx";
 import UserProfileSettings from "../pages/user/ProfileSetting.jsx";
-
-
+import NotFoundPage from "../components/NotFoundPage.jsx";
 
 export const adminRoutes = [
   { path: "/", element: <DashboardHome /> }, // default /Admin
@@ -35,6 +34,7 @@ export const adminRoutes = [
   { path: "monitoring", element: <SystemMonitoring /> },
   { path: "logs", element: <ActivityLogs /> },
   { path: "settings", element: <AdminSettings /> },
+  { path: "*", element: <NotFoundPage /> },
 ];
 
 export const partnerRoutes = [
@@ -47,7 +47,8 @@ export const partnerRoutes = [
   { path: "reports", element: <Reports /> },
   { path: "support", element: <Support /> },
   { path: "profile-settings", element: <ProfileSettings /> },
-]
+  { path: "*", element: <NotFoundPage /> },
+];
 
 export const userRoutes = [
   { path: "/", element: <UserDashboard /> }, // default /User
@@ -58,4 +59,5 @@ export const userRoutes = [
   { path: "history", element: <History /> },
   { path: "help-support", element: <HelpSupport /> },
   { path: "profile-settings", element: <UserProfileSettings /> },
+  { path: "*", element: <NotFoundPage /> },
 ];

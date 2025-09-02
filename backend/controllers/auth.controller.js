@@ -69,6 +69,8 @@ export const logout = async (req, res) => {
 
 export const signup = async (req, res) => {
   const { email, password, fullname, phone } = req.body;
+
+  console.log(email, password, fullname, phone);
   try {
     if (!email || !password || !fullname || !phone) {
       throw new Error("Please provide all required fields");

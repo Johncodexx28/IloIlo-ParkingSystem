@@ -1,6 +1,11 @@
 import express from "express";
 
-import { bookParking, handleParkingEntry, addParkingLot } from "../controllers/parking.controller.js";
+import {
+  bookParking,
+  handleParkingEntry,
+  addParkingLot,
+  rfidApproval,
+} from "../controllers/parking.controller.js";
 
 import { verifyToken } from "../middleware/verifyToken.js";
 import { requireRole } from "../middleware/requireRole.js";
@@ -28,6 +33,7 @@ router.post("/user/book-parking", verifyToken, requireRole("user"), bookParking)
 
 
 // Partner Parking Routes
+router.post("/partner/parking/RFID-approval",verifyToken, requireRole("partner"), rfidApproval);
 router.post("/partner/add-parking-lot", verifyToken, requireRole("partner"), addParkingLot);
 // router.put("/partner/update-parking-lot/:lotId", verifyToken, requireRole("partner"), updateParkingLot);
 // router.delete("/partner/delete-parking-lot/:lotId", verifyToken, requireRole("partner"), deleteParkingLot);

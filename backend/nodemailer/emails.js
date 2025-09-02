@@ -109,7 +109,12 @@ export const sendPartnerShipEmail = async (email, companyName) => {
   }
 };
 
-export const sendApprovalEmail = async (email,companyName,verificationToken, loginLink) => {
+export const sendApprovalEmail = async (
+  email,
+  companyName,
+  verificationToken,
+  loginLink
+) => {
   try {
     const info = await sendEmail(
       email,
@@ -147,3 +152,22 @@ export const sendPartnerShipWelcomeEmail = async (email, companyName) => {
     throw error;
   }
 };
+
+export const sendRFIDApprovalEmail = async (email, rfidTag) => {
+  try {
+    const info = await sendEmail(email, "Your RFID Tag is Ready 🎉");
+    console.log(`✅ RFID approval email sent to ${email}`, info);
+    return info;
+  } catch (error) {
+    console.error(`❌ Failed to send RFID approval email to ${email}:`, error);
+    throw error;
+  }
+}; //FINISH THISSSSSSSSSSS
+
+// tommorow coding task 
+// 1. Implement the sendRFIDApprovalEmail function to include the rfidTag in the email body using a predefined HTML template.
+// 2. Test the sendRFIDApprovalEmail function to ensure it sends the email correctly with the RFID tag information.
+// 3. Integrate the sendRFIDApprovalEmail function into the rfidApproval controller function to send an email when an RFID tag is approved and assigned to a user.
+// 4. Verify the entire flow from RFID request approval to email notification works as expected.
+// 5. Document the changes made and update any relevant API documentation to include the new email notification feature.
+// 6
