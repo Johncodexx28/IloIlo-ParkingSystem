@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Calendar, 
-  DollarSign, 
+  PhilippinePeso, 
   Heart, 
   TrendingUp, 
   MapPin, 
@@ -104,7 +104,7 @@ const UserDashboard = () => {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-gray-600 text-sm font-medium">Total Spent</h3>
-            <DollarSign className="w-5 h-5 text-gray-400" />
+            <PhilippinePeso className="w-5 h-5 text-gray-400" />
           </div>
           <div className="space-y-1">
             <p className="text-3xl font-bold text-gray-900">₱4,800</p>

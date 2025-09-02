@@ -73,7 +73,7 @@ const PartnersManagement = () => {
       revenue: 287000,
       commission: 18,
       contract: "Premium",
-      status: "Active",
+      status: "Inactive",
     },
     {
       id: 4,

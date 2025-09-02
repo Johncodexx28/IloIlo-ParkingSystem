@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TrendingUp, TrendingDown, DollarSign, Clock, Banknote } from 'lucide-react';
+import { TrendingUp, TrendingDown,PhilippinePeso, Clock, Banknote } from 'lucide-react';
 import TransactionBarChart from '../../components/Charts/PartnerTransactionBarChart';
 
 const Transactions = () => {
@@ -35,7 +35,7 @@ const Transactions = () => {
         <div className="p-4 sm:p-6 bg-white rounded-xl sm:rounded-2xl shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-semibold text-gray-700">Gross Revenue</h3>
-            <DollarSign size={20} className="text-gray-400" />
+            <PhilippinePeso  size={20} className="text-gray-400" />
           </div>
           <p className="text-xl sm:text-2xl font-bold text-black">₱234,680</p>
           <p className="text-xs text-gray-500 mt-1">This month</p>

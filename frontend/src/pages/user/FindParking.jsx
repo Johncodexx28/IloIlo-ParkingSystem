@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, MapPin, Star, Heart, Eye, Clock, Shield, Video, DollarSign, Zap, Car } from 'lucide-react';
+import { Search, MapPin, Star, Heart, Eye, Clock, Shield, Video, PhilippinePeso, Zap, Car } from 'lucide-react';
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 const FindParking = () => {
@@ -211,7 +211,7 @@ const FindParking = () => {
                 checked={filters.budgetFriendly}
                 onChange={(e) => setFilters({...filters, budgetFriendly: e.target.checked})}
               />
-              <DollarSign className="w-4 h-4" />
+              <PhilippinePeso className="w-4 h-4" />
               <span className="text-sm">Budget Friendly</span>
             </label>
           </div>
