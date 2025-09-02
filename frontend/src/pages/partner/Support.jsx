@@ -71,67 +71,67 @@ const SupportDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-4 lg:p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Support / System Errors</h1>
-          <button className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Support / System Errors</h1>
+          <button className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 flex items-center justify-center gap-2 w-full sm:w-auto">
             <Plus size={16} />
-            Create Support Ticket
+            <span className="sm:inline">Create Support Ticket</span>
           </button>
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Open Tickets</h3>
-            <div className="text-2xl font-bold text-gray-900">3</div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+          <div className="bg-white p-4 lg:p-6 rounded-xl shadow-sm">
+            <h3 className="text-xs lg:text-sm font-medium text-gray-500 mb-2">Open Tickets</h3>
+            <div className="text-xl lg:text-2xl font-bold text-gray-900">3</div>
             <div className="text-xs text-gray-500 mt-1">Awaiting response</div>
           </div>
           
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-sm font-medium text-gray-500 mb-2">System Errors</h3>
-            <div className="text-2xl font-bold text-red-600">2</div>
+          <div className="bg-white p-4 lg:p-6 rounded-xl shadow-sm">
+            <h3 className="text-xs lg:text-sm font-medium text-gray-500 mb-2">System Errors</h3>
+            <div className="text-xl lg:text-2xl font-bold text-red-600">2</div>
             <div className="text-xs text-gray-500 mt-1">Active issues</div>
           </div>
           
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Avg Response Time</h3>
-            <div className="text-2xl font-bold text-gray-900">2.4h</div>
+          <div className="bg-white p-4 lg:p-6 rounded-xl shadow-sm">
+            <h3 className="text-xs lg:text-sm font-medium text-gray-500 mb-2">Avg Response Time</h3>
+            <div className="text-xl lg:text-2xl font-bold text-gray-900">2.4h</div>
             <div className="text-xs text-gray-500 mt-1">Support team response</div>
           </div>
           
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Resolution Rate</h3>
-            <div className="text-2xl font-bold text-gray-900">94%</div>
+          <div className="bg-white p-4 lg:p-6 rounded-xl shadow-sm">
+            <h3 className="text-xs lg:text-sm font-medium text-gray-500 mb-2">Resolution Rate</h3>
+            <div className="text-xl lg:text-2xl font-bold text-gray-900">94%</div>
             <div className="text-xs text-gray-500 mt-1">Issues resolved</div>
           </div>
         </div>
 
         {/* Support Tickets and System Errors */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8 mb-8">
           {/* Support Tickets */}
           <div className="bg-white rounded-xl shadow-sm">
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-4 lg:p-6 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900">Support Tickets</h2>
               <p className="text-sm text-gray-500">Your submitted support requests</p>
             </div>
             
-            <div className="p-6">
+            <div className="p-4 lg:p-6">
               <div className="space-y-4">
                 {supportTickets.map((ticket) => (
-                  <div key={ticket.id} className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-medium text-gray-900">{ticket.title}</h3>
-                      <span className={`px-2 py-1 text-xs font-medium rounded ${getPriorityColor(ticket.priority)}`}>
+                  <div key={ticket.id} className="border border-gray-200 rounded-lg p-3 lg:p-4">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-2">
+                      <h3 className="font-medium text-gray-900 text-sm lg:text-base">{ticket.title}</h3>
+                      <span className={`px-2 py-1 text-xs font-medium rounded self-start ${getPriorityColor(ticket.priority)}`}>
                         {ticket.priority}
                       </span>
                     </div>
                     <p className="text-sm text-gray-600 mb-3">{ticket.description}</p>
-                    <div className="flex justify-between items-center text-xs text-gray-500">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 text-xs text-gray-500">
                       <span>Created: {ticket.created}</span>
-                      <span className={`px-2 py-1 rounded ${getStatusColor(ticket.status)}`}>
+                      <span className={`px-2 py-1 rounded self-start ${getStatusColor(ticket.status)}`}>
                         {ticket.status.replace('_', ' ')}
                       </span>
                     </div>
@@ -148,23 +148,23 @@ const SupportDashboard = () => {
 
           {/* System Errors */}
           <div className="bg-white rounded-xl shadow-sm">
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-4 lg:p-6 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900">System Errors</h2>
               <p className="text-sm text-gray-500">Flagged system issues for your account</p>
             </div>
             
-            <div className="p-6">
+            <div className="p-4 lg:p-6">
               <div className="space-y-4">
                 {systemErrors.map((error) => (
-                  <div key={error.id} className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-medium text-gray-900">{error.title}</h3>
-                      <span className={`px-2 py-1 text-xs font-medium rounded ${getStatusColor(error.status)}`}>
+                  <div key={error.id} className="border border-gray-200 rounded-lg p-3 lg:p-4">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-2">
+                      <h3 className="font-medium text-gray-900 text-sm lg:text-base">{error.title}</h3>
+                      <span className={`px-2 py-1 text-xs font-medium rounded self-start ${getStatusColor(error.status)}`}>
                         {error.status}
                       </span>
                     </div>
                     <p className="text-sm text-gray-600 mb-1">{error.description}</p>
-                    <div className="flex justify-between items-center text-xs text-gray-500">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 text-xs text-gray-500">
                       <span className="text-gray-500">{error.type}</span>
                       <span>{error.timestamp}</span>
                     </div>
@@ -181,35 +181,35 @@ const SupportDashboard = () => {
         </div>
 
         {/* Contact Support Section */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-gray-900">Contact Support</h2>
             <p className="text-sm text-gray-500">Get help from our support team</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {/* Phone Support */}
-            <div className="text-center p-6 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
+            <div className="text-center p-4 lg:p-6 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Phone className="w-6 h-6 text-blue-600" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Phone Support</h3>
               <p className="text-sm text-gray-500 mb-3">Available 24/7</p>
-              <p className="font-semibold text-gray-900">+63 33 123 4567</p>
+              <p className="font-semibold text-gray-900 text-sm lg:text-base">+63 33 123 4567</p>
             </div>
 
             {/* Email Support */}
-            <div className="text-center p-6 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
+            <div className="text-center p-4 lg:p-6 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Mail className="w-6 h-6 text-green-600" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Email Support</h3>
               <p className="text-sm text-gray-500 mb-3">Response within 4 hours</p>
-              <p className="font-semibold text-gray-900">partner@parklink.ph</p>
+              <p className="font-semibold text-gray-900 text-sm lg:text-base break-all">partner@parklink.ph</p>
             </div>
 
             {/* Knowledge Base */}
-            <div className="text-center p-6 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors cursor-pointer">
+            <div className="text-center p-4 lg:p-6 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors cursor-pointer sm:col-span-2 lg:col-span-1">
               <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Globe className="w-6 h-6 text-purple-600" />
               </div>

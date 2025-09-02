@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Settings, CreditCard, Bell, Shield, Server, Car, PhilippinePeso } from 'lucide-react';
+import { Settings, CreditCard, Bell, Shield, Server, Car, PhilippinePeso, Menu, X } from 'lucide-react';
 
 const AdminSettings = () => {
   const [activeTab, setActiveTab] = useState('General');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [settings, setSettings] = useState({
     // General Settings
     systemName: 'Iloilo ParkLink',
@@ -59,16 +60,14 @@ const AdminSettings = () => {
     performanceAnalytics: true
   });
 
-
-const tabs = [
-  { id: 'General', label: 'General', icon: Settings },
-  { id: 'Parking', label: 'Parking', icon: Car },
-  { id: 'Payments', label: 'Payments', icon: PhilippinePeso },
-  { id: 'Notifications', label: 'Notifications', icon: Bell },
-  { id: 'Security', label: 'Security', icon: Shield },
-  { id: 'System', label: 'System', icon: Server }
-];
-
+  const tabs = [
+    { id: 'General', label: 'General', icon: Settings },
+    { id: 'Parking', label: 'Parking', icon: Car },
+    { id: 'Payments', label: 'Payments', icon: PhilippinePeso },
+    { id: 'Notifications', label: 'Notifications', icon: Bell },
+    { id: 'Security', label: 'Security', icon: Shield },
+    { id: 'System', label: 'System', icon: Server }
+  ];
 
   const handleInputChange = (field, value) => {
     setSettings(prev => ({ ...prev, [field]: value }));
@@ -76,6 +75,11 @@ const tabs = [
 
   const handleToggle = (field) => {
     setSettings(prev => ({ ...prev, [field]: !prev[field] }));
+  };
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+    setSidebarOpen(false);
   };
 
   const Toggle = ({ enabled, onToggle }) => (
@@ -94,12 +98,12 @@ const tabs = [
   );
 
   const renderGeneralTab = () => (
-    <div className="space-y-8 ">
+    <div className="space-y-6 lg:space-y-8">
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">General Settings</h3>
-        <p className="text-sm text-gray-500 ">Basic system configuration</p>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">General Settings</h3>
+        <p className="text-sm text-gray-500 mb-4">Basic system configuration</p>
         
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">System Name</label>
             <input
@@ -143,8 +147,8 @@ const tabs = [
       </div>
 
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-6">Business Information</h3>
-        <div className="grid grid-cols-2 gap-6">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Business Information</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
             <input
@@ -187,12 +191,12 @@ const tabs = [
   );
 
   const renderParkingTab = () => (
-    <div className="space-y-8">
+    <div className="space-y-6 lg:space-y-8">
       <div>
         <h3 className="text-lg font-medium text-gray-900 mb-1">Parking Configuration</h3>
-        <p className="text-sm text-gray-500 mb-6">Parking lot and pricing settings</p>
+        <p className="text-sm text-gray-500 mb-4 lg:mb-6">Parking lot and pricing settings</p>
         
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Default Hourly Rate</label>
             <input
@@ -233,10 +237,10 @@ const tabs = [
       </div>
 
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-6">Reservation Settings</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-4 lg:mb-6">Reservation Settings</h3>
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Allow Advanced Reservations</div>
               <div className="text-sm text-gray-500">Enable users to reserve spots in advance</div>
             </div>
@@ -245,8 +249,8 @@ const tabs = [
               onToggle={() => handleToggle('allowAdvancedReservations')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Auto-Cancel Expired Reservations</div>
               <div className="text-sm text-gray-500">Automatically cancel reservations after grace period</div>
             </div>
@@ -255,8 +259,8 @@ const tabs = [
               onToggle={() => handleToggle('autoCancelExpiredReservations')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Require Payment on Reservation</div>
               <div className="text-sm text-gray-500">Charge users when they make a reservation</div>
             </div>
@@ -271,17 +275,17 @@ const tabs = [
   );
 
   const renderPaymentsTab = () => (
-    <div className="space-y-8">
+    <div className="space-y-6 lg:space-y-8">
       <div>
         <h3 className="text-lg font-medium text-gray-900 mb-1">Payment Configuration</h3>
-        <p className="text-sm text-gray-500 mb-6">Payment methods and processing settings</p>
+        <p className="text-sm text-gray-500 mb-4 lg:mb-6">Payment methods and processing settings</p>
         
         <h4 className="font-medium text-gray-900 mb-4">Accepted Payment Methods</h4>
-        <div className="space-y-4 mb-8">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center justify-between">
+        <div className="space-y-4 mb-6 lg:mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center">
-                <CreditCard className="w-5 h-5 mr-2 text-gray-500" />
+                <CreditCard className="w-5 h-5 mr-3 text-gray-500" />
                 <span className="font-medium">Credit/Debit Cards</span>
               </div>
               <Toggle 
@@ -289,9 +293,9 @@ const tabs = [
                 onToggle={() => handleToggle('creditDebitCards')} 
               />
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center">
-                <div className="w-5 h-5 mr-2 text-gray-500 flex items-center justify-center bg-blue-100 rounded text-xs font-bold">G</div>
+                <div className="w-5 h-5 mr-3 text-gray-500 flex items-center justify-center bg-blue-100 rounded text-xs font-bold">G</div>
                 <span className="font-medium">GCash</span>
               </div>
               <Toggle 
@@ -299,9 +303,9 @@ const tabs = [
                 onToggle={() => handleToggle('gCash')} 
               />
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center">
-                <div className="w-5 h-5 mr-2 text-gray-500 flex items-center justify-center bg-green-100 rounded text-xs font-bold">P</div>
+                <div className="w-5 h-5 mr-3 text-gray-500 flex items-center justify-center bg-green-100 rounded text-xs font-bold">P</div>
                 <span className="font-medium">PayMaya</span>
               </div>
               <Toggle 
@@ -309,21 +313,20 @@ const tabs = [
                 onToggle={() => handleToggle('payMaya')} 
               />
             </div>
-          <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <PhilippinePeso className="w-5 h-5 mr-2 text-gray-500" />
-            <span className="font-medium">Cash Payments</span>
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center">
+                <PhilippinePeso className="w-5 h-5 mr-3 text-gray-500" />
+                <span className="font-medium">Cash Payments</span>
+              </div>
+              <Toggle 
+                enabled={settings.cashPayments} 
+                onToggle={() => handleToggle('cashPayments')} 
+              />
+            </div>
           </div>
-          <Toggle 
-            enabled={settings.cashPayments} 
-            onToggle={() => handleToggle('cashPayments')} 
-          />
         </div>
 
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Processing Fee (%)</label>
             <input
@@ -367,15 +370,15 @@ const tabs = [
   );
 
   const renderNotificationsTab = () => (
-    <div className="space-y-8">
+    <div className="space-y-6 lg:space-y-8">
       <div>
         <h3 className="text-lg font-medium text-gray-900 mb-1">Notification Settings</h3>
-        <p className="text-sm text-gray-500 mb-6">Configure alerts and notification preferences</p>
+        <p className="text-sm text-gray-500 mb-4 lg:mb-6">Configure alerts and notification preferences</p>
         
         <h4 className="font-medium text-gray-900 mb-4">Admin Notifications</h4>
-        <div className="space-y-4 mb-8">
-          <div className="flex items-center justify-between">
-            <div>
+        <div className="space-y-4 mb-6 lg:mb-8">
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">System Alerts</div>
               <div className="text-sm text-gray-500">Device failures and system issues</div>
             </div>
@@ -384,8 +387,8 @@ const tabs = [
               onToggle={() => handleToggle('systemAlerts')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">High Occupancy Alerts</div>
               <div className="text-sm text-gray-500">When parking lots reach 90% capacity</div>
             </div>
@@ -394,8 +397,8 @@ const tabs = [
               onToggle={() => handleToggle('highOccupancyAlerts')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Payment Failures</div>
               <div className="text-sm text-gray-500">Failed payment transactions</div>
             </div>
@@ -404,8 +407,8 @@ const tabs = [
               onToggle={() => handleToggle('paymentFailures')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Daily Reports</div>
               <div className="text-sm text-gray-500">Automated daily summary reports</div>
             </div>
@@ -418,8 +421,8 @@ const tabs = [
 
         <h4 className="font-medium text-gray-900 mb-4">Customer Notifications</h4>
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Reservation Confirmations</div>
               <div className="text-sm text-gray-500">SMS/Email when reservation is confirmed</div>
             </div>
@@ -428,8 +431,8 @@ const tabs = [
               onToggle={() => handleToggle('reservationConfirmations')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Payment Receipts</div>
               <div className="text-sm text-gray-500">Digital receipts for all payments</div>
             </div>
@@ -438,8 +441,8 @@ const tabs = [
               onToggle={() => handleToggle('paymentReceipts')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Parking Reminders</div>
               <div className="text-sm text-gray-500">Reminders before parking expires</div>
             </div>
@@ -454,15 +457,15 @@ const tabs = [
   );
 
   const renderSecurityTab = () => (
-    <div className="space-y-8">
+    <div className="space-y-6 lg:space-y-8">
       <div>
         <h3 className="text-lg font-medium text-gray-900 mb-1">Security Settings</h3>
-        <p className="text-sm text-gray-500 mb-6">Authentication and access control</p>
+        <p className="text-sm text-gray-500 mb-4 lg:mb-6">Authentication and access control</p>
         
         <h4 className="font-medium text-gray-900 mb-4">Admin Account Security</h4>
-        <div className="space-y-4 mb-8">
-          <div className="flex items-center justify-between">
-            <div>
+        <div className="space-y-4 mb-6 lg:mb-8">
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Two-Factor Authentication</div>
               <div className="text-sm text-gray-500">Require 2FA for admin accounts</div>
             </div>
@@ -471,8 +474,8 @@ const tabs = [
               onToggle={() => handleToggle('twoFactorAuth')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Session Timeout</div>
               <div className="text-sm text-gray-500">Auto-logout after inactivity</div>
             </div>
@@ -481,8 +484,8 @@ const tabs = [
               onToggle={() => handleToggle('sessionTimeout')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Login Audit Logs</div>
               <div className="text-sm text-gray-500">Track all login attempts</div>
             </div>
@@ -493,7 +496,7 @@ const tabs = [
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Session Timeout (minutes)</label>
             <input
@@ -536,13 +539,13 @@ const tabs = [
   );
 
   const renderSystemTab = () => (
-    <div className="space-y-8">
+    <div className="space-y-6 lg:space-y-8">
       <div>
         <h3 className="text-lg font-medium text-gray-900 mb-1">System Maintenance</h3>
-        <p className="text-sm text-gray-500 mb-6">Backup, updates, and system health</p>
+        <p className="text-sm text-gray-500 mb-4 lg:mb-6">Backup, updates, and system health</p>
         
         <h4 className="font-medium text-gray-900 mb-4">Backup & Recovery</h4>
-        <div className="grid grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 mb-6 lg:mb-8">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Backup Frequency</label>
             <select
@@ -567,9 +570,9 @@ const tabs = [
         </div>
 
         <h4 className="font-medium text-gray-900 mb-4">System Health</h4>
-        <div className="space-y-4 mb-8">
-          <div className="flex items-center justify-between">
-            <div>
+        <div className="space-y-4 mb-6 lg:mb-8">
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Automatic Updates</div>
               <div className="text-sm text-gray-500">Install security updates automatically</div>
             </div>
@@ -578,8 +581,8 @@ const tabs = [
               onToggle={() => handleToggle('automaticUpdates')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Health Monitoring</div>
               <div className="text-sm text-gray-500">Continuous system health checks</div>
             </div>
@@ -588,8 +591,8 @@ const tabs = [
               onToggle={() => handleToggle('healthMonitoring')} 
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between">
+            <div className="flex-1 mr-4">
               <div className="font-medium text-gray-900">Performance Analytics</div>
               <div className="text-sm text-gray-500">Collect system performance data</div>
             </div>
@@ -601,7 +604,7 @@ const tabs = [
         </div>
 
         <h4 className="font-medium text-gray-900 mb-4">Maintenance Actions</h4>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
           <button className="flex items-center justify-center px-4 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
             <Settings className="w-4 h-4 mr-2" />
             Backup Database
@@ -643,42 +646,97 @@ const tabs = [
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 ">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between ">
-          <h1 className="text-2xl font-bold mb-6">Admin Settings</h1>
-          <button className="flex items-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors mb-3">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4 sm:mb-0">Admin Settings</h1>
+          <button className="flex items-center justify-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors w-full sm:w-auto">
             <Settings className="w-4 h-4 mr-2" />
             Save Changes
           </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm ">
-          {/* Tab Navigation */}
-          <div className="border-b border-gray-200">
-            <nav className="flex space-x-8 px-6">
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-                      activeTab === tab.id
-                        ? "border-black text-black"
-                        : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                    }`}
-                  >
-                    <Icon className="w-4 h-4 mr-2" />
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </nav>
+        <div className="bg-white rounded-lg shadow-sm">
+          {/* Mobile Tab Navigation */}
+          <div className="lg:hidden">
+            <div className="border-b border-gray-200">
+              <div className="px-4 py-3">
+                <button
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="flex items-center justify-between w-full text-left"
+                >
+                  <div className="flex items-center">
+                    {tabs.find(tab => tab.id === activeTab) && (
+                      <>
+                        {React.createElement(tabs.find(tab => tab.id === activeTab).icon, {
+                          className: "w-5 h-5 mr-3"
+                        })}
+                        <span className="font-medium">{tabs.find(tab => tab.id === activeTab).label}</span>
+                      </>
+                    )}
+                  </div>
+                  {sidebarOpen ? (
+                    <X className="w-5 h-5 text-gray-400" />
+                  ) : (
+                    <Menu className="w-5 h-5 text-gray-400" />
+                  )}
+                </button>
+              </div>
+              
+              {sidebarOpen && (
+                <div className="border-t border-gray-200 bg-gray-50">
+                  <nav className="px-4 py-2">
+                    {tabs.map((tab) => {
+                      const Icon = tab.icon;
+                      return (
+                        <button
+                          key={tab.id}
+                          onClick={() => handleTabClick(tab.id)}
+                          className={`flex items-center w-full px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                            activeTab === tab.id
+                              ? "bg-black text-white"
+                              : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                          }`}
+                        >
+                          <Icon className="w-4 h-4 mr-3" />
+                          {tab.label}
+                        </button>
+                      );
+                    })}
+                  </nav>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Desktop Tab Navigation */}
+          <div className="hidden lg:block">
+            <div className="border-b border-gray-200">
+              <nav className="flex space-x-8 px-6">
+                {tabs.map((tab) => {
+                  const Icon = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex items-center py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                        activeTab === tab.id
+                          ? "border-black text-black"
+                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      }`}
+                    >
+                      <Icon className="w-4 h-4 mr-2" />
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
           </div>
 
           {/* Tab Content */}
-          <div className="p-6">{renderTabContent()}</div>
+          <div className="p-4 sm:p-6">{renderTabContent()}</div>
         </div>
       </div>
     </div>

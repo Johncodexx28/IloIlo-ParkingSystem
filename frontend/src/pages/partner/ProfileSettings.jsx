@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Upload, Settings } from 'lucide-react';
+import { Upload, Settings, Menu, X } from 'lucide-react';
 
 export default function ProfileSettings() {
   const [activeTab, setActiveTab] = useState('Company Details');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     companyName: 'SM City Iloilo',
     businessType: 'Shopping Mall',
@@ -57,23 +58,58 @@ export default function ProfileSettings() {
     alert('Changes saved successfully!');
   };
 
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-3 sm:p-4 md:p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Profile Settings</h1>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 md:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Profile Settings</h1>
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+            className="flex items-center justify-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors w-full sm:w-auto"
           >
             <Settings size={16} />
             Save Changes
           </button>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex bg-white rounded-lg p-1 mb-6 shadow-sm">
+        {/* Mobile Tab Menu Toggle */}
+        <div className="lg:hidden mb-4">
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="flex items-center justify-between w-full bg-white rounded-lg p-3 shadow-sm border"
+          >
+            <span className="font-medium text-gray-900">{activeTab}</span>
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+
+        {/* Mobile Tab Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden mb-4 bg-white rounded-lg shadow-sm border overflow-hidden">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => handleTabChange(tab)}
+                className={`w-full text-left p-4 border-b border-gray-100 last:border-b-0 transition-colors ${
+                  activeTab === tab
+                    ? 'bg-gray-50 text-gray-900 font-medium'
+                    : 'text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Desktop Tab Navigation */}
+        <div className="hidden lg:flex bg-white rounded-lg p-1 mb-6 shadow-sm">
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -90,7 +126,7 @@ export default function ProfileSettings() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
           {activeTab === 'Company Details' && (
             <div>
               <div className="mb-6">
@@ -103,8 +139,8 @@ export default function ProfileSettings() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Company Logo</label>
                   <p className="text-sm text-gray-500 mb-3">Upload your company logo</p>
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                       <div className="w-8 h-8 bg-gray-300 rounded grid grid-cols-2 gap-0.5">
                         <div className="bg-gray-400 rounded-sm"></div>
                         <div className="bg-gray-400 rounded-sm"></div>
@@ -112,7 +148,7 @@ export default function ProfileSettings() {
                         <div className="bg-gray-400 rounded-sm"></div>
                       </div>
                     </div>
-                    <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    <button className="flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors w-full sm:w-auto">
                       <Upload size={16} />
                       Upload Logo
                     </button>
@@ -120,7 +156,7 @@ export default function ProfileSettings() {
                 </div>
 
                 {/* Form Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
                     <input
@@ -240,7 +276,7 @@ export default function ProfileSettings() {
                   <button
                     type="button"
                     onClick={() => alert('Password updated successfully!')}
-                    className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors font-medium"
+                    className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors font-medium w-full sm:w-auto"
                   >
                     Update Password
                   </button>
@@ -248,7 +284,7 @@ export default function ProfileSettings() {
 
                 <div className="border-t pt-6 mt-8">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Two-Factor Authentication</h3>
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div>
                       <p className="font-medium text-gray-700">Enable 2FA</p>
                       <p className="text-sm text-gray-500">Add an extra layer of security</p>
@@ -260,7 +296,7 @@ export default function ProfileSettings() {
                         onChange={(e) => handleInputChange('enable2FA', e.target.checked)}
                         className="sr-only peer"
                       />
-                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
                     </label>
                   </div>
                 </div>
@@ -276,7 +312,7 @@ export default function ProfileSettings() {
               </div>
 
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Bank Name</label>
                     <input
@@ -321,7 +357,7 @@ export default function ProfileSettings() {
                 <div className="border-t pt-6 mt-8">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Alternative Payout Methods</h3>
                   
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                     <div>
                       <p className="font-medium text-gray-700">GCash Wallet</p>
                     </div>
@@ -370,7 +406,7 @@ export default function ProfileSettings() {
                       { key: 'noShowNotifications', label: 'No-show notifications' }
                     ].map(({ key, label }) => (
                       <div key={key} className="flex items-center justify-between">
-                        <span className="text-gray-700">{label}</span>
+                        <span className="text-gray-700 text-sm sm:text-base">{label}</span>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
@@ -378,7 +414,7 @@ export default function ProfileSettings() {
                             onChange={(e) => handleNotificationChange(key, e.target.checked)}
                             className="sr-only peer"
                           />
-                           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
                         </label>
                       </div>
                     ))}
@@ -395,7 +431,7 @@ export default function ProfileSettings() {
                       { key: 'monthlyReports', label: 'Monthly reports' }
                     ].map(({ key, label }) => (
                       <div key={key} className="flex items-center justify-between">
-                        <span className="text-gray-700">{label}</span>
+                        <span className="text-gray-700 text-sm sm:text-base">{label}</span>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
@@ -403,7 +439,7 @@ export default function ProfileSettings() {
                             onChange={(e) => handleNotificationChange(key, e.target.checked)}
                             className="sr-only peer"
                           />
-                           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
                         </label>
                       </div>
                     ))}
@@ -420,7 +456,7 @@ export default function ProfileSettings() {
                       { key: 'marketingUpdates', label: 'Marketing updates' }
                     ].map(({ key, label }) => (
                       <div key={key} className="flex items-center justify-between">
-                        <span className="text-gray-700">{label}</span>
+                        <span className="text-gray-700 text-sm sm:text-base">{label}</span>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
