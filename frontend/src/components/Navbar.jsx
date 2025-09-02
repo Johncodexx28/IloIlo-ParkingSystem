@@ -1,4 +1,5 @@
 import logo from "../assets/parking-sign.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -76,8 +77,13 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <div className="navbar-end">
-          <a className="btn btn-error text-white">Signup</a>
+        <div className="navbar-end gap-2">
+          <Link to="/Login" className="btn btn-neutral text-white lg:w-[80px]">
+            Login
+          </Link>
+          <Link to="/Signup" className="btn btn-error text-white lg:w-[80px]">
+            Signup
+          </Link>
         </div>
       </div>
     </div>

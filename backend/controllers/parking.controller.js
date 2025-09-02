@@ -7,6 +7,8 @@ import { ParkingLots } from "../models/parkingLots.model.js";
 import { ParkingSpot } from "../models/parkingSpot.model.js";
 import { ParkingSession } from "../models/parkingSession.model.js";
 import { Booking } from "../models/bookingLot.model.js";
+import { RFIDRequest } from "../models/rfidRequest.model.js";
+
 
 export const handleParkingEntry = async (req, res) => {
   const { rfidTag } = req.body;
@@ -28,6 +30,8 @@ export const handleParkingEntry = async (req, res) => {
 
 // user endpoints
 
+export const requestRFIDTag = async (req, res) => {};
+
 export const bookParking = async (req, res) => {
   try {
     const {
@@ -36,7 +40,6 @@ export const bookParking = async (req, res) => {
       parkingSpot,
       startTime,
       endTime,
-      totalAmount,
       paymentMethod,
     } = req.body;
 
@@ -47,7 +50,6 @@ export const bookParking = async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    // 2. Validate times
     if (new Date(endTime) <= new Date(startTime)) {
       return res
         .status(400)
@@ -56,9 +58,7 @@ export const bookParking = async (req, res) => {
 
     const conflict = await Booking.findOne({
       user: user._id,
-      $or: [
-        { startTime: { $lt: endTime }, endTime: { $gt: startTime } }, // time overlap
-      ],
+      $or: [{ startTime: { $lt: endTime }, endTime: { $gt: startTime } }],
       status: { $in: ["booked", "active"] },
     });
 
@@ -85,6 +85,13 @@ export const bookParking = async (req, res) => {
       });
     }
 
+    const hourlyRate = await ParkingLots.findById(parkingLot).select(
+      "hourlyRate"
+    );
+    const hoursBooked =
+      (new Date(endTime) - new Date(startTime)) / (1000 * 60 * 60);
+    const totalAmount = Math.ceil(hoursBooked * hourlyRate.hourlyRate);
+
     const bookingCode = `BKG-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
     const booking = new Booking({
@@ -94,11 +101,17 @@ export const bookParking = async (req, res) => {
       bookingCode,
       startTime,
       endTime,
-      totalAmount,
+      totalAmount: totalAmount,
       paymentMethod,
       isPaid: false,
       status: "booked",
     });
+
+    await User.findByIdAndUpdate(
+      user._id,
+      { $push: { bookings: booking._id } },
+      { new: true }
+    );
 
     await booking.save();
 
@@ -120,6 +133,7 @@ export const bookParking = async (req, res) => {
   }
 };
 
+// partner endpoints
 export const addParkingLot = async (req, res) => {
   try {
     const { LotName, location, capacity, hourlyRate } = req.body;
@@ -161,5 +175,45 @@ export const addParkingLot = async (req, res) => {
   } catch (error) {
     console.error("Error adding parking lot:", error);
     return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export const rfidApproval = async (req, res) => {
+  try {
+    const { requestId, rfidTag } = req.body; 
+
+    const request = await RFIDRequest.findById(requestId);
+    if (!request) {
+      return res.status(404).json({ message: "RFID request not found" });
+    }
+
+    const user = await User.findById(request.user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.rfidTag = rfidTag;
+    await user.save();
+
+    request.status = "approved";
+    request.rfidTag = rfidTag;
+    await request.save();
+
+    if (user.email) {
+      await sendEmail(
+        user.email,
+        "Your RFID Tag is Ready",
+        `Hi ${user.name}, your RFID tag (${rfidTag}) is now ready for claiming at ${request.location}.`
+      );
+    }
+
+    res.status(200).json({
+      message: "RFID approved and assigned successfully",
+      user,
+      request,
+    });
+  } catch (error) {
+    console.error("Error approving RFID:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };

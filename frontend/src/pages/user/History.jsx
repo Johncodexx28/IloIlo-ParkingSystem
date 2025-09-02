@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, Receipt, Heart, ChevronDown } from 'lucide-react';
+import { Download, TicketCheck, Heart, ChevronDown } from 'lucide-react';
 
 const ParkingHistory = () => {
   const [timeFilter, setTimeFilter] = useState('All Time');
@@ -154,7 +154,7 @@ const ParkingHistory = () => {
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-2">
                         <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="View Receipt">
-                          <Receipt size={16} className="text-gray-600" />
+                          <TicketCheck size={16} className="text-gray-600" />
                         </button>
                         <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Add to Favorites">
                           <Heart size={16} className="text-gray-600" />

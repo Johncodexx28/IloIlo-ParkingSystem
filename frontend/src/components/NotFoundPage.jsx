@@ -50,6 +50,7 @@ const Error404Page = () => {
               </div>
             </div>
           </div>
+          
 
           {/* 404 Text */}
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-gray-900 leading-none mb-3 sm:mb-4">

@@ -305,3 +305,37 @@ export const PARTNERSHIP_WELCOME_EMAIL_TEMPLATE = `
   </div>
 </body>
 </html>`;
+
+export const RFID_APPROVAL_EMAIL_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your RFID Tag is Ready 🎉</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #121212; margin: 0; padding: 20px; color: #e5e5e5;">
+  <div style="max-width: 560px; margin: auto; background: #1e1e1e; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+    <div style="background: linear-gradient(135deg, #16a34a, #065f46);padding: 24px; text-align: center;">
+      <h1 style="color: white; margin: 0; font-size: 22px;">RFID Approved & Assigned 🎉</h1>
+      <p style="color: rgba(255,255,255,0.85); margin: 4px 0 0; font-size: 14px;">Your RFID Tag is Ready for Claiming</p>
+    </div>
+    <div style="padding: 24px;">
+      <p>Dear {userName},</p>
+      <p>Good news! Your request for an RFID tag has been approved and successfully assigned.</p>
+      <p>Your RFID Tag Number: <strong style="color:green;">{rfidTag}</strong></p>
+      <p>You may now claim your RFID tag at the following location:</p>
+      <p style="font-weight: 500; color: #000000;">{location}</p>
+      <div style="text-align: center; margin: 32px 0;">
+        <a href="{supportLink}" style="background-color: #16a34a; color: white; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: 500; display: inline-block;">Contact Support</a>
+      </div>
+      <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
+      <p>Thank you for being part of the P-Parking community!</p>
+      <p>Best regards,<br><strong style="color: #16a34a;;">The P-Parking Team</strong></p>
+    </div>
+    <div style="padding: 16px; text-align: center; background-color: #1a1a1a; border-top: 1px solid #333;">
+      <p style="font-size: 12px; color: ">This is an automated message from P-Parking. Please do not reply.</p>
+    </div>
+  </div>
+</body>
+</html>`;
