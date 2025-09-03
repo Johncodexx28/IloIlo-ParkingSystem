@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useAuthStore from "../../store/authStore.js";
+import useUserStore from "../../store/userStore.js";
+
+
 import {
   Calendar,
   PhilippinePeso,
@@ -61,14 +65,32 @@ const UserDashboard = () => {
   ]);
 
   const { account } = useAuthStore();
+  const {
+    user,
+    bookings,
+    bookingsCount,
+    loadingUser,
+    loadingBookings,
+    loadingBookingsCount,
+    fetchUserProfile,
+    fetchUserBookings,
+    fetchBookingsQuantity,
+  } = useUserStore();
+
+  useEffect(() => {
+    fetchUserProfile();
+    fetchUserBookings();
+    fetchBookingsQuantity();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
+     
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-            Welcome back, {account?.fullname || User}
+            Welcome back, {account?.fullname}
             <span className="text-2xl">👋</span>
           </h1>
           <p className="text-gray-600 mt-1">
@@ -101,7 +123,9 @@ const UserDashboard = () => {
             <Calendar className="w-5 h-5 text-gray-400" />
           </div>
           <div className="space-y-1">
-            <p className="text-3xl font-bold text-gray-900">1</p>
+            <p className="text-3xl font-bold text-gray-900">
+              {bookingsCount || 0}
+            </p>
             <p className="text-sm text-green-600">+3 this month</p>
           </div>
         </div>

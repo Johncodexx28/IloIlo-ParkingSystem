@@ -62,7 +62,7 @@ export const checkAuth = async (req, res) => {
 
 export const logout = async (req, res) => {
   res.clearCookie("token");
-  res.status(200).json({ succes: true, message: "Logged out successfully" });
+  res.status(200).json({ success: true, message: "Logged out successfully" });
 };
 
 // User Auth Controllers
@@ -70,7 +70,6 @@ export const logout = async (req, res) => {
 export const signup = async (req, res) => {
   const { email, password, fullname, phone } = req.body;
 
-  console.log(email, password, fullname, phone);
   try {
     if (!email || !password || !fullname || !phone) {
       throw new Error("Please provide all required fields");
@@ -110,8 +109,8 @@ export const signup = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Server error");
+    console.error("Signup error:", error);
+    res.status(500).json({ message: error.message || "Server error" });
   }
 };
 
@@ -127,6 +126,10 @@ export const verifyEmail = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Invalid or Expired verification code" });
+    }
+
+    if (user.isVerified) {
+      return res.status(400).json({ message: "Email already verified" });
     }
 
     user.isVerified = true;
@@ -151,12 +154,51 @@ export const verifyEmail = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role, companyName } = req.body;
+
   try {
+    // ✅ Partner Login
+    if (role === "partner") {
+      const partner = await PartnerCompany.findOne({ email });
+      if (!partner) {
+        return res.status(400).json({ message: "Invalid partner credentials" });
+      }
+
+      const isPasswordValid = await bcryptjs.compare(
+        password,
+        partner.password
+      );
+      if (!isPasswordValid) {
+        return res.status(400).json({ message: "Invalid partner credentials" });
+      }
+
+      if (!partner.isPartnerShipAccepted) {
+        return res
+          .status(403)
+          .json({ message: "Partnership not accepted yet" });
+      }
+
+      generateTokenAndSetCookie(res, partner._id, partner.role);
+
+      partner.lastLogin = new Date();
+      await partner.save();
+
+      return res.status(200).json({
+        success: true,
+        message: `Welcome back, ${partner.companyName}!`,
+        user: {
+          ...partner._doc,
+          password: undefined,
+        },
+      });
+    }
+
+    // ✅ Default User Login
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
+
     const isPasswordValid = await bcryptjs.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -169,15 +211,15 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Logged in successfully",
+      message: `Welcome back, ${user.name || "User"}!`,
       user: {
         ...user._doc,
         password: undefined,
       },
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Server error");
+    console.error("❌ Error in login:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -336,7 +378,7 @@ export const verify_partner = async (req, res) => {
 };
 
 export const login_partner = async (req, res) => {
-  const { email, password } = req.body;
+  const { companyName, email, password } = req.body;
 
   try {
     const partner = await PartnerCompany.findOne({ email });

@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuthStore } from "../store/authStore.js";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const EmailVerificationPage = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -34,7 +34,7 @@ const EmailVerificationPage = () => {
     const verificationCode = code.join("");
     try {
       await verifyEmail(verificationCode);
-      navigate("/");
+      navigate("/User");
       toast.success("Email verified successfully");
     } catch (error) {
       console.log(error);
@@ -50,6 +50,7 @@ const EmailVerificationPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-8">
+      <Toaster />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -80,12 +81,6 @@ const EmailVerificationPage = () => {
                 />
               ))}
             </div>
-
-            {error && (
-              <p className="text-red-600 text-sm text-center font-medium">
-                {error}
-              </p>
-            )}
 
             <motion.button
               whileHover={{ scale: 1.02 }}

@@ -1,25 +1,29 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Lock, Loader } from "lucide-react";
+import { Mail, Lock, Loader, Building2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input.jsx";
 import { useAuthStore } from "../store/authStore";
 import logo from "../assets/parking-sign.png";
+import { Toaster } from "react-hot-toast";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [userRole, setUserRole] = useState("driver"); // "driver" or "partner"
 
-  const { login, isLoading, error } = useAuthStore();
+  const { login, isLoading } = useAuthStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    await login(email, password);
+    // pass role + companyName (if partner) into login
+    await login(email, password, { role: userRole, companyName });
   };
 
   return (
     <div className="min-h-screen flex">
-      <div className="w-full  flex items-center justify-center p-8">
+      <div className="w-full flex items-center justify-center p-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -32,7 +36,46 @@ const LoginPage = () => {
               Login
             </h2>
 
+            {/* Role Toggle */}
+            <div className="mb-6">
+              <div className="flex bg-gray-100 rounded-lg p-1">
+                <button
+                  type="button"
+                  onClick={() => setUserRole("driver")}
+                  className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
+                    userRole === "driver"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  Driver/User
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setUserRole("partner")}
+                  className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
+                    userRole === "partner"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  Partner Company
+                </button>
+              </div>
+            </div>
+
             <form onSubmit={handleLogin}>
+              {/* Only show Company Name if Partner is selected */}
+              {userRole === "partner" && (
+                <Input
+                  icon={Building2}
+                  type="text"
+                  placeholder="Company Name"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                />
+              )}
+
               <Input
                 icon={Mail}
                 type="email"
@@ -58,12 +101,6 @@ const LoginPage = () => {
                 </Link>
               </div>
 
-              {error && (
-                <p className="text-red-600 text-sm mb-4 text-center font-medium">
-                  {error}
-                </p>
-              )}
-
               <motion.button
                 type="submit"
                 className="w-full py-3 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200"
@@ -74,10 +111,13 @@ const LoginPage = () => {
                 {isLoading ? (
                   <Loader className="w-5 h-5 animate-spin mx-auto" />
                 ) : (
-                  "Login"
+                  `Login as ${
+                    userRole === "driver" ? "Driver/User" : "Partner Company"
+                  }`
                 )}
               </motion.button>
             </form>
+            <Toaster position="top-center" />
           </div>
 
           <div className="px-8 py-4 bg-gray-50 border-t border-gray-200">

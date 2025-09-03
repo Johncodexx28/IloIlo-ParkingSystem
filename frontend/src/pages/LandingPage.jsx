@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Footer from "../components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const LandingPage = () => {
   return (
@@ -15,6 +16,7 @@ const LandingPage = () => {
         <Hero />
       </div>
       <Footer />
+      <Toaster position="top-center" />
     </div>
   );
 };

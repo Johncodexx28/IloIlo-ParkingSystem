@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const API_URL =
   import.meta.env.MODE === "development"
@@ -26,40 +27,19 @@ export const useAuthStore = create((set) => ({
         fullname,
         phone,
       });
-      set({
-        account: response.data.user, // update here
-        role: response.data.user.role,
-        isAuthenticated: true,
-        isLoading: false,
-      });
-    } catch (error) {
-      set({
-        error: error.response?.data?.message || "Error signing up",
-        isLoading: false,
-      });
-      throw error;
-    }
-  },
 
-  login: async (email, password) => {
-    set({ isLoading: true, error: null });
-    try {
-      const response = await axios.post(`${API_URL}/login`, {
-        email,
-        password,
-      });
       set({
         account: response.data.user,
         role: response.data.user.role,
-        isAuthenticated: true,
-        error: null,
+        isAuthenticated: false,
         isLoading: false,
       });
+
+      return response.data;
     } catch (error) {
-      set({
-        error: error.response?.data?.message || "Error logging in",
-        isLoading: false,
-      });
+      const message = error.response?.data?.message || "Error signing up";
+      set({ error: message, isLoading: false });
+      toast.error(message);
       throw error;
     }
   },
@@ -68,21 +48,68 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/verify-email`, { code });
+
+      if (!response.data.success) {
+        throw new Error(response.data.message || "Verification failed");
+      }
+
       set({
         account: response.data.user,
         role: response.data.user.role,
         isAuthenticated: true,
         isLoading: false,
       });
+
+      toast.success(response.data.message);
       return response.data;
     } catch (error) {
+      const message = error.response?.data?.message || "Error verifying email";
       set({
-        error: error.response?.data?.message || "Error verifying email",
+        error: message,
         isLoading: false,
       });
+      toast.error(message);
       throw error;
     }
   },
+
+  login: async (
+    email,
+    password,
+    { role = "driver", companyName = "" } = {}
+  ) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await axios.post(`${API_URL}/login`, {
+        email,
+        password,
+        role,
+        companyName,
+      });
+
+      set({
+        account: response.data.user,
+        role: response.data.user.role,
+        isAuthenticated: true,
+        error: null,
+        isLoading: false,
+      });
+
+      toast.success(response.data.message || "Login successful");
+    } catch (error) {
+      const message = error.response?.data?.message || "Error logging in";
+
+      set({
+        error: message,
+        isLoading: false,
+      });
+
+      toast.error(message);
+    }
+  },
+
+  //common  routes
 
   checkAuthStatus: async () => {
     set({ isCheckingAuth: true });
@@ -103,4 +130,29 @@ export const useAuthStore = create((set) => ({
       });
     }
   },
+
+  logout: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/logout`);
+
+      set({
+        account: null,
+        role: null,
+        isAuthenticated: false,
+        error: null,
+        isLoading: false,
+      });
+
+      toast.success(response.data?.message);
+    } catch (error) {
+      const message = error.response?.data?.message || "Error logging out";
+
+      set({ error: message, isLoading: false });
+      toast.error(message);
+      throw error;
+    }
+  },
 }));
+
+export default useAuthStore;

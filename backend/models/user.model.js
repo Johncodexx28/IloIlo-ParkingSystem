@@ -25,8 +25,7 @@ const userSchema = new mongoose.Schema(
     },
     rfidTag: {
       type: String,
-      unique: true,
-      partialFilterExpression: { rfidTag: { $type: "string" } },
+      default: null,
     },
     bookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
     isVerified: {

@@ -51,7 +51,7 @@ export const partnerRoutes = [
 ];
 
 export const userRoutes = [
-  { path: "/", element: <UserDashboard /> }, // default /User
+  { path: "/", element: <UserDashboard /> },
   { path: "find-parking", element: <FindParking /> },
   { path: "my-bookings", element: <MyBookings /> },
   { path: "payment", element: <Payment /> },

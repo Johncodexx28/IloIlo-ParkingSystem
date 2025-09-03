@@ -6,6 +6,7 @@ import path from "path";
 
 import authRoutes from "../routes/auth.routes.js";
 import parkingRoutes from "../routes/parking.routes.js";
+import userRoutes from "../routes/user.routes.js"
 import { connectDB } from "../config/db.js";
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/parking", parkingRoutes);
+app.use("/api/user", userRoutes)
 
 app.listen(PORT, () => {
   connectDB();

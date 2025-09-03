@@ -10,6 +10,7 @@ import EmailVerificationPage from "./pages/EmailVerificationPage.jsx";
 
 import { useEffect } from "react";
 import { useAuthStore } from "./store/authStore.js";
+import Logout from "./pages/Logout.jsx";
 
 export default function App() {
   useEffect(() => {
@@ -108,6 +109,8 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/logout" element={<Logout />} />
 
       {/* Catch-all */}
       <Route path="*" element={<NotFoundPage />} />

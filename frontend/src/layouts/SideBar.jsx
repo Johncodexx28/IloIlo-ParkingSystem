@@ -13,13 +13,13 @@ const SideBar = () => {
 
   if (location.pathname.startsWith("/Admin")) {
     menu = adminMenu;
-    title = "ParkLink Admin";
+    title = "P-Parking IloIlo";
   } else if (location.pathname.startsWith("/Partner")) {
     menu = partnerMenu;
-    title = "ParkLink Partner";
+    title = "P-Parking IloIlo";
   } else if (location.pathname.startsWith("/User")) {
     menu = userMenu;
-    title = "ParkLink User";
+    title = "P-Parking IloIlo";
   }
 
   const toggleSidebar = () => {
@@ -73,12 +73,16 @@ const SideBar = () => {
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 w-64 h-screen bg-white text-gray-900 flex flex-col border-r border-gray-200 z-16 transform transition-transform duration-300 ease-in-out
-          ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+          ${isOpen ? "translate-x-0" : "-translate-x-full"} 
           lg:translate-x-0`}
       >
         {/* Logo Section */}
         <div className="flex items-center gap-3 p-5 border-b border-gray-200">
-          <img src={logo} alt="ParkLink Logo" className="w-8 h-8 object-contain" />
+          <img
+            src={logo}
+            alt="ParkLink Logo"
+            className="w-8 h-8 object-contain"
+          />
           <h1 className="text-lg font-bold">{title}</h1>
         </div>
 
