@@ -10,7 +10,8 @@ import EmailVerificationPage from "./pages/EmailVerificationPage.jsx";
 
 import { useEffect } from "react";
 import { useAuthStore } from "./store/authStore.js";
-import Logout from "./pages/Logout.jsx";
+import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
 
 export default function App() {
   useEffect(() => {
@@ -22,12 +23,16 @@ export default function App() {
 
     if (!isAuthenticated) {
       if (role === "admin") return <Navigate to="/login_admin" replace />;
-      if (role === "partner") return <Navigate to="/login_partner" replace />;
+      if (role === "partner") return <Navigate to="/login" replace />;
       return <Navigate to="/login" replace />; // regular user
     }
 
-    if (!account?.isVerified) {
+    if (!account?.isVerified && role == "user") {
       return <Navigate to="/verify-email" replace />;
+    }
+
+    if (!account?.isPartnerShipAccepted && role === "partner") {
+      return <Navigate to="/waiting-approval" replace />;
     }
 
     if (role && userRole !== role) {
@@ -109,8 +114,11 @@ export default function App() {
           </ProtectedRoute>
         }
       />
-
-      <Route path="/logout" element={<Logout />} />
+      <Route path="/forgot-password/:role" element={<ForgotPasswordPage />} />
+      <Route
+        path="/reset-password/:role/:token"
+        element={<ResetPasswordPage />}
+      />
 
       {/* Catch-all */}
       <Route path="*" element={<NotFoundPage />} />

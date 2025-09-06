@@ -73,11 +73,7 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  login: async (
-    email,
-    password,
-    { role = "driver", companyName = "" } = {}
-  ) => {
+  login: async (email, password, { role = "user", companyName = "" } = {}) => {
     set({ isLoading: true, error: null });
 
     try {
@@ -106,6 +102,48 @@ export const useAuthStore = create((set) => ({
       });
 
       toast.error(message);
+    }
+  },
+
+  forgotPassword: async (email, role) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/forgot-password/${role}`, {
+        email,
+      });
+      set({ message: response.data.message, isLoading: false });
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "Error sending reset password email";
+      set({
+        isLoading: false,
+        error: message,
+      });
+      toast.error(message);
+      throw error;
+    }
+  },
+
+  resetPassword: async (token, role, password) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(
+        `${API_URL}/reset-password/${role}/${token}`,
+        { password }
+      );
+      set({ message: response.data.message, isLoading: false });
+      toast.success(response.data.message); // success toast
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "Error resetting password";
+
+      set({
+        isLoading: false,
+        error: message,
+      });
+
+      toast.error(message); // 👈 always show backend message
+      throw error;
     }
   },
 

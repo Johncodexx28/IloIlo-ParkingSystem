@@ -5,7 +5,6 @@ import {
   login,
   logout,
   login_admin,
-  login_partner,
   signup_partner,
   verifyEmail,
   resetPassword,
@@ -23,14 +22,14 @@ const router = express.Router();
 // Common routes
 router.get("/check-auth", verifyToken, checkAuth);
 router.post("/logout", logout);
+router.post("/login", login);
 
 // User Routes
-router.post("/login", login);
 router.post("/verify-email", verifyEmail);
 router.post("/signup", signup);
 
-router.post("/reset-password/:token", resetPassword);
-router.post("/forgot-password", forgotPassword);
+router.post("/forgot-password/:role", forgotPassword);
+router.post("/reset-password/:role/:token", resetPassword);
 
 //Admin Routes
 router.post("/login-admin", login_admin);
@@ -41,7 +40,6 @@ router.post(
 );
 
 // Partner Routes
-router.post("/login-partner", login_partner);
 router.post("/signup-partner", signup_partner);
 router.post("/partner-verify", verify_partner);
 

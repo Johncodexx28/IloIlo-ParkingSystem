@@ -29,8 +29,10 @@ export const checkAuth = async (req, res) => {
         break;
       case "partner":
         if (req.partnerId) {
-          account = await Partner.findById(req.partnerId).select("-password");
-          if (account && !account.isPartnershipAccepted) {
+          account = await PartnerCompany.findById(req.partnerId).select(
+            "-password"
+          );
+          if (account && !account.isPartnerShipAccepted) {
             return res.status(403).json({
               success: false,
               message: "Partnership not accepted yet",
@@ -161,7 +163,19 @@ export const login = async (req, res) => {
     if (role === "partner") {
       const partner = await PartnerCompany.findOne({ email });
       if (!partner) {
-        return res.status(400).json({ message: "Invalid partner credentials" });
+        return res.status(400).json({
+          success: false,
+          message: "Invalid Company Credentials",
+          role: "partner",
+        });
+      }
+
+      if (companyName !== partner.companyName) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid Company Name",
+          role: "partner",
+        });
       }
 
       const isPasswordValid = await bcryptjs.compare(
@@ -169,7 +183,11 @@ export const login = async (req, res) => {
         partner.password
       );
       if (!isPasswordValid) {
-        return res.status(400).json({ message: "Invalid partner credentials" });
+        return res.status(400).json({
+          success: false,
+          message: "Invalid Company Credentials",
+          role: "partner",
+        });
       }
 
       if (!partner.isPartnerShipAccepted) {
@@ -211,7 +229,7 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: `Welcome back, ${user.name || "User"}!`,
+      message: `Welcome back, ${user.fullname}!`,
       user: {
         ...user._doc,
         password: undefined,
@@ -225,33 +243,41 @@ export const login = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
+  const { role } = req.params;
   try {
-    const user = await User.findOne({ email });
+    let account;
 
-    if (!user) {
+    if (role === "user") {
+      account = await User.findOne({ email });
+    } else if (role === "partner") {
+      account = await PartnerCompany.findOne({ email });
+    } else if (role === "admin") {
+      account = await Admin.findOne({ email });
+    }
+
+    if (!account) {
       return res
         .status(400)
-        .json({ success: false, message: "User not found" });
+        .json({ success: false, message: `${role} not found` });
     }
 
     // Generate reset token
     const resetToken = crypto.randomBytes(20).toString("hex");
-    const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000; // 1 hour
+    const resetTokenExpiresAt = Date.now() + 60 * 60 * 1000; // 1 hour
 
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpiresAt = resetTokenExpiresAt;
+    account.resetPasswordToken = resetToken;
+    account.resetPasswordExpiresAt = resetTokenExpiresAt;
+    await account.save();
 
-    await user.save();
-
-    // send email
+    // Send email
     await sendPasswordResetEmail(
-      user.email,
-      `${process.env.CLIENT_URL}/reset-password/${resetToken}`
+      account.email,
+      `${process.env.CLIENT_URL}/reset-password/${role}/${resetToken}`
     );
 
     res.status(200).json({
       success: true,
-      message: "Password reset link sent to your email",
+      message: `Password reset link sent to ${role} email`,
     });
   } catch (error) {
     console.log("Error in forgotPassword ", error);
@@ -261,33 +287,47 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { token } = req.params;
+    const { role, token } = req.params; // comes from /reset-password/:role/:token
     const { password } = req.body;
 
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpiresAt: { $gt: Date.now() },
-    });
-
-    if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid or expired reset token" });
+    let account;
+    if (role === "user") {
+      account = await User.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpiresAt: { $gt: Date.now() },
+      });
+    } else if (role === "partner") {
+      account = await PartnerCompany.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpiresAt: { $gt: Date.now() },
+      });
+    } else if (role === "admin") {
+      account = await Admin.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpiresAt: { $gt: Date.now() },
+      });
     }
 
-    // update password
+    if (!account) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or expired reset token",
+      });
+    }
+
+    // Update password
     const hashedPassword = await bcryptjs.hash(password, 10);
+    account.password = hashedPassword;
+    account.resetPasswordToken = undefined;
+    account.resetPasswordExpiresAt = undefined;
+    await account.save();
 
-    user.password = hashedPassword;
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpiresAt = undefined;
-    await user.save();
+    await sendResetSuccessEmail(account.email);
 
-    await sendResetSuccessEmail(user.email);
-
-    res
-      .status(200)
-      .json({ success: true, message: "Password reset successful" });
+    res.status(200).json({
+      success: true,
+      message: `${role} Password reset successful`,
+    });
   } catch (error) {
     console.log("Error in resetPassword ", error);
     res.status(400).json({ success: false, message: error.message });
@@ -374,40 +414,6 @@ export const verify_partner = async (req, res) => {
   } catch (error) {
     console.error("❌ Error in verify_partner:", error);
     res.status(500).json({ message: "Server error" });
-  }
-};
-
-export const login_partner = async (req, res) => {
-  const { companyName, email, password } = req.body;
-
-  try {
-    const partner = await PartnerCompany.findOne({ email });
-    if (!partner) {
-      return res.status(400).json({ message: "Invalid credentials" });
-    }
-    const isPasswordValid = await bcryptjs.compare(password, partner.password);
-    if (!isPasswordValid) {
-      return res.status(400).json({ message: "Invalid credentials" });
-    }
-    if (!partner.isPartnerShipAccepted) {
-      return res.status(403).json({ message: "Partnership not accepted yet" });
-    }
-    generateTokenAndSetCookie(res, partner._id, partner.role);
-
-    partner.lastLogin = new Date();
-    await partner.save();
-
-    res.status(200).json({
-      success: true,
-      message: "Logged in successfully",
-      partner: {
-        ...partner._doc,
-        password: undefined,
-      },
-    });
-  } catch (error) {
-    console.error("❌ Error in login_partner:", error);
-    res.status(500).send("Server error");
   }
 };
 

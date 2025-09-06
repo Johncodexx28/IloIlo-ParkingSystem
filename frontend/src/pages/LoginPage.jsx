@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, Loader, Building2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/Input.jsx";
 import { useAuthStore } from "../store/authStore";
 import logo from "../assets/parking-sign.png";
@@ -11,14 +11,21 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [companyName, setCompanyName] = useState("");
-  const [userRole, setUserRole] = useState("driver"); // "driver" or "partner"
-
+  const [userRole, setUserRole] = useState("user");
   const { login, isLoading } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // pass role + companyName (if partner) into login
-    await login(email, password, { role: userRole, companyName });
+    try {
+      await login(email, password, { role: userRole, companyName });
+      // ✅ redirect based on role
+      if (userRole === "user") navigate("/User");
+      if (userRole === "partner") navigate("/Partner");
+      if (userRole === "admin") navigate("/Admin");
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
   };
 
   return (
@@ -41,9 +48,9 @@ const LoginPage = () => {
               <div className="flex bg-gray-100 rounded-lg p-1">
                 <button
                   type="button"
-                  onClick={() => setUserRole("driver")}
+                  onClick={() => setUserRole("user")}
                   className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
-                    userRole === "driver"
+                    userRole === "user"
                       ? "bg-white text-gray-900 shadow-sm"
                       : "text-gray-600 hover:text-gray-900"
                   }`}
@@ -94,7 +101,7 @@ const LoginPage = () => {
 
               <div className="flex items-center justify-end mb-6">
                 <Link
-                  to="/forgot-password"
+                  to={`/forgot-password/${userRole}`}
                   className="text-sm text-gray-600 hover:text-gray-800 hover:underline transition duration-200"
                 >
                   Forgot password?
@@ -112,7 +119,7 @@ const LoginPage = () => {
                   <Loader className="w-5 h-5 animate-spin mx-auto" />
                 ) : (
                   `Login as ${
-                    userRole === "driver" ? "Driver/User" : "Partner Company"
+                    userRole === "user" ? "Driver/User" : "Partner Company"
                   }`
                 )}
               </motion.button>

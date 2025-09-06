@@ -99,5 +99,4 @@ export const userMenu = [
     path: "/User/profile-settings",
     icon: <Settings size={18} />,
   },
-  { name: "Logout", path: "/logout", icon: <LogOut size={18} /> },
 ];

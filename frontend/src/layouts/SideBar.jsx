@@ -1,11 +1,16 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from "../assets/parking-sign.png";
+import useAuthStore from "../store/authStore";
 
 import { adminMenu, partnerMenu, userMenu } from "../config/navigationConfig";
+import { LogOut } from "lucide-react";
 
 const SideBar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const logout = useAuthStore((state) => state.logout);
+
   const [isOpen, setIsOpen] = useState(false);
 
   let menu = [];
@@ -28,6 +33,17 @@ const SideBar = () => {
 
   const closeSidebar = () => {
     setIsOpen(false);
+  };
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      await logout(); 
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+      navigate("/");
+    }
   };
 
   return (
@@ -93,7 +109,7 @@ const SideBar = () => {
               key={index}
               to={item.path}
               end
-              onClick={closeSidebar} // Close sidebar when nav item is clicked on mobile
+              onClick={closeSidebar}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2 rounded-md font-medium transition 
                 ${
@@ -107,6 +123,15 @@ const SideBar = () => {
               <span className="text-sm">{item.name}</span>
             </NavLink>
           ))}
+
+          {/* Logout Button (separate from mapped menu) */}
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center gap-3 px-3 py-2 rounded-md font-medium text-gray-700 hover:bg-gray-100 mt-4 cursor-pointer"
+          >
+            <LogOut size={18} />
+            <span className="text-sm">Logout</span>
+          </button>
         </nav>
       </aside>
     </>

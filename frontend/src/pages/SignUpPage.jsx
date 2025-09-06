@@ -14,7 +14,7 @@ const SignUpPage = () => {
   const [phone, setPhone] = useState("");
   const navigate = useNavigate();
 
-  const { signup, error, isLoading } = useAuthStore();
+  const { signup, isLoading } = useAuthStore();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
