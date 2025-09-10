@@ -37,6 +37,10 @@ const partnerCompanySchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    claimingSites: {
+      type: [String],
+      default: [],
+    },
     verificationToken: String,
     verificationTokenExpiresAt: Date,
     resetPasswordToken: String,

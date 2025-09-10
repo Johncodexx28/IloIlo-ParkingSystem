@@ -7,7 +7,9 @@ import NotFoundPage from "./components/NotFoundPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignUpPage from "./pages/SignupPage.jsx";
 import EmailVerificationPage from "./pages/EmailVerificationPage.jsx";
+import LoadingScreen from "./components/LoadingScreen.jsx";
 
+import PartnershipRequestPage from "./pages/PartnerShipRequestPage.jsx";
 import { useEffect } from "react";
 import { useAuthStore } from "./store/authStore.js";
 import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
@@ -19,20 +21,31 @@ export default function App() {
   }, []);
 
   const ProtectedRoute = ({ children, role }) => {
-    const { isAuthenticated, account, role: userRole } = useAuthStore();
+    const {
+      isAuthenticated,
+      account,
+      role: userRole,
+      isCheckingAuth,
+    } = useAuthStore();
 
-    if (!isAuthenticated) {
-      if (role === "admin") return <Navigate to="/login_admin" replace />;
-      if (role === "partner") return <Navigate to="/login" replace />;
-      return <Navigate to="/login" replace />; // regular user
+    if (isCheckingAuth) {
+      return (
+        <div>
+          <LoadingScreen />
+        </div>
+      );
     }
 
-    if (!account?.isVerified && role == "user") {
+    if (!isAuthenticated) {
+      return <Navigate to="/login" replace />;
+    }
+
+    if (role === "user" && !account?.isVerified) {
       return <Navigate to="/verify-email" replace />;
     }
 
-    if (!account?.isPartnerShipAccepted && role === "partner") {
-      return <Navigate to="/waiting-approval" replace />;
+    if (role === "partner" && !account?.isPartnerShipAccepted) {
+      return <Navigate to="/Partner" replace />;
     }
 
     if (role && userRole !== role) {
@@ -88,21 +101,12 @@ export default function App() {
         }
       />
       <Route path="/verify-email" element={<EmailVerificationPage />} />
-
       {/* Protected Dashboards */}
       <Route
         path="/Admin/*"
         element={
           <ProtectedRoute role="admin">
             <AdminDashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/Partner/*"
-        element={
-          <ProtectedRoute role="partner">
-            <PartnerDashboard />
           </ProtectedRoute>
         }
       />
@@ -114,12 +118,21 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/Partner/*"
+        element={
+          <ProtectedRoute role="partner">
+            <PartnerDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/Partnership-request" element={<PartnershipRequestPage />} />
+      /partnership-request
       <Route path="/forgot-password/:role" element={<ForgotPasswordPage />} />
       <Route
         path="/reset-password/:role/:token"
         element={<ResetPasswordPage />}
       />
-
       {/* Catch-all */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

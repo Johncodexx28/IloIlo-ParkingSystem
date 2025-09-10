@@ -8,7 +8,7 @@ import { ParkingSpot } from "../models/parkingSpot.model.js";
 import { ParkingSession } from "../models/parkingSession.model.js";
 import { Booking } from "../models/bookingLot.model.js";
 import { RFIDRequest } from "../models/rfidRequest.model.js";
-
+import { request } from "express";
 
 export const handleParkingEntry = async (req, res) => {
   const { rfidTag } = req.body;
@@ -29,8 +29,6 @@ export const handleParkingEntry = async (req, res) => {
 };
 
 // user endpoints
-
-export const requestRFIDTag = async (req, res) => {};
 
 export const bookParking = async (req, res) => {
   try {
@@ -180,7 +178,7 @@ export const addParkingLot = async (req, res) => {
 
 export const rfidApproval = async (req, res) => {
   try {
-    const { requestId, rfidTag } = req.body; 
+    const { requestId, rfidTag } = req.body;
 
     const request = await RFIDRequest.findById(requestId);
     if (!request) {

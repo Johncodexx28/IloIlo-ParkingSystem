@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
-import { UserPlus, MapPin } from "lucide-react";
 import ParkingLot from "../assets/road.jpg";
+import { UserPlus, MapPin, Car, CreditCard, Search } from "lucide-react";
+import { Link } from "react-router-dom";
+
 
 const Hero = () => {
   const containerVariants = {
@@ -158,11 +160,12 @@ const Hero = () => {
               whileTap="tap"
             >
               <UserPlus size={20} />
-              Partner with us
+              Partner with usbuttonVariants
             </motion.button>
           </motion.div>
         </div>
       </motion.div>
+
     </section>
   );
 };

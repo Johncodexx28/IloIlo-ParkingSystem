@@ -12,7 +12,6 @@ import { requireRole } from "../middleware/requireRole.js";
 
 const router = express.Router();
 
-//Common Routes
 
 
 // User Parking Routes
@@ -37,6 +36,7 @@ router.post("/partner/parking/RFID-approval",verifyToken, requireRole("partner")
 router.post("/partner/add-parking-lot", verifyToken, requireRole("partner"), addParkingLot);
 // router.put("/partner/update-parking-lot/:lotId", verifyToken, requireRole("partner"), updateParkingLot);
 // router.delete("/partner/delete-parking-lot/:lotId", verifyToken, requireRole("partner"), deleteParkingLot);
+
 
 
 export default router;  
