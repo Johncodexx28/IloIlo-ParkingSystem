@@ -1,5 +1,21 @@
 import { useState } from "react";
-import { Plus, Eye, Settings, Navigation } from "lucide-react";
+import {
+  Description,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Field,
+} from "@headlessui/react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Car,
+  Plus,
+  Eye,
+  Settings,
+  ParkingCircle,
+  Navigation,
+  QrCode,
+} from "lucide-react";
 
 const RFIDCardManagement = () => {
   const [cards] = useState([
@@ -22,6 +38,8 @@ const RFIDCardManagement = () => {
       status: "Ready for Pickup",
     },
   ]);
+  const cardNumber = "0000-0000-0000-000";
+  let [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -32,11 +50,11 @@ const RFIDCardManagement = () => {
             RFID Card Management
           </h1>
           <button
-            onClick={() => alert("testing:")}
+            onClick={() => setIsOpen(true)}
             className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-colors"
           >
             <Plus size={20} />
-            Request New Card
+            Request Card
           </button>
         </div>
 
@@ -48,47 +66,141 @@ const RFIDCardManagement = () => {
             </h2>
             <p className="text-gray-600">Manage your active parking cards</p>
           </div>
-
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-6 text-white shadow-lg">
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <h3 className="text-xl font-semibold mb-1">{cards[0].name}</h3>
-                <p className="text-blue-100 opacity-90">
-                  {cards[0].rfidNumber}
-                </p>
+          <div className="flex flex-col lg:flex-row gap-8 items-center justify-left p-8">
+            {/* Front Side */}
+            <div className="relative">
+              <div className="text-xs text-gray-600 mb-2 text-center">
+                Front Side
               </div>
-              <span className="bg-green-400 text-green-900 px-3 py-1 rounded-full text-sm font-medium">
-                {cards[0].status}
-              </span>
+              <div className="relative w-80 h-48 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #B71C1C 0%, #D32F2F 50%, #B71C1C 100%)",
+                  }}
+                />
+
+                <div
+                  className="absolute inset-0 opacity-20"
+                  style={{
+                    background: `repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 1px,
+                rgba(255,255,255,0.1) 1px,
+                rgba(255,255,255,0.1) 2px
+              )`,
+                  }}
+                />
+
+                <div
+                  className="absolute inset-0 opacity-10"
+                  style={{
+                    background: `radial-gradient(circle at 25% 25%, rgba(255,255,255,0.3) 0%, transparent 50%),
+                           radial-gradient(circle at 75% 75%, rgba(0,0,0,0.2) 0%, transparent 50%)`,
+                  }}
+                />
+
+                <div className="relative z-10 h-full flex flex-col justify-center text-white">
+                  <div className="absolute top-4 left-4 text-sm font-bold font-mono tracking-wider bg-black/30 px-2 py-1 rounded">
+                    {cardNumber}
+                  </div>
+
+                  <div className="flex items-center gap-3 justify-center">
+                    <ParkingCircle
+                      size={32}
+                      className="text-white drop-shadow-lg"
+                    />
+                    <div
+                      className="text-3xl font-bold tracking-wide drop-shadow-lg"
+                      style={{
+                        fontFamily: "system-ui, -apple-system, sans-serif",
+                      }}
+                    >
+                      P Parking
+                    </div>
+                  </div>
+
+                  <div
+                    className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)",
+                    }}
+                  />
+                </div>
+
+                <div className="absolute inset-0 rounded-2xl border border-white/20" />
+              </div>
             </div>
 
-            <div className="flex justify-between items-end mb-6">
-              <div>
-                <p className="text-blue-100 opacity-90 text-sm mb-1">Balance</p>
-                <p className="text-3xl font-bold">₱{cards[0].balance}</p>
+            {/* Back Side */}
+            {/* <div className="relative">
+              <div className="text-xs text-gray-600 mb-2 text-center">
+                Back Side
               </div>
-              <div className="text-right">
-                <p className="text-blue-100 opacity-90 text-sm mb-1">Expires</p>
-                <p className="text-lg font-semibold">{cards[0].expires}</p>
-              </div>
-            </div>
+              <div className="relative w-80 h-48 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #B71C1C 0%, #D32F2F 50%, #B71C1C 100%)",
+                  }}
+                />
 
-            <div className="flex gap-3">
-              <div className="flex gap-3">
-                <button className="bg-transparent backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-white/10 transition-all">
-                  <Plus size={16} />
-                  Top Up
-                </button>
-                <button className="bg-transparent backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-white/10 transition-all">
-                  <Eye size={16} />
-                  History
-                </button>
-                <button className="bg-transparent backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-white/10 transition-all">
-                  <Settings size={16} />
-                  Settings
-                </button>
+                <div
+                  className="absolute inset-0 opacity-20"
+                  style={{
+                    background: `repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 1px,
+                rgba(255,255,255,0.1) 1px,
+                rgba(255,255,255,0.1) 2px
+              )`,
+                  }}
+                />
+
+                <div className="absolute inset-0 opacity-5">
+                  <div className="grid grid-cols-6 grid-rows-4 h-full w-full">
+                    {Array.from({ length: 24 }).map((_, i) => (
+                      <div key={i} className="flex items-center justify-center">
+                        <Car size={16} className="text-white" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="relative z-10 h-full p-6 flex flex-col justify-between text-white">
+                  <div className="space-y-2">
+                    <div className="text-sm font-medium">RFID PARKING CARD</div>
+                    <div className="text-xs leading-relaxed opacity-90">
+                      Hold card near reader to access parking facilities.
+                      <br />
+                      Keep card secure and report if lost or stolen.
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-end">
+                    <div className="space-y-1">
+                      <div className="text-xs opacity-75">
+                        Card ID: {cardNumber}
+                      </div>
+                      <div className="text-xs opacity-75">
+                        Valid until: 01/01/2026
+                      </div>
+                    </div>
+
+                    <div className="w-12 h-12 bg-white rounded-md flex items-center justify-center">
+                      <QrCode size={20} className="text-red-800" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute inset-0 rounded-2xl border border-white/20" />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -130,6 +242,89 @@ const RFIDCardManagement = () => {
               </div>
             ))}
           </div>
+          {/* Modals */}
+          <AnimatePresence>
+            {isOpen && (
+              <Dialog
+                static
+                open={isOpen}
+                onClose={() => setIsOpen(false)}
+                className="relative z-50"
+              >
+                {/* Backdrop */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 bg-black/10 "
+                />
+
+                {/* Modal container */}
+                <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+                  <DialogPanel
+                    as={motion.div}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg space-y-6"
+                  >
+                    <DialogTitle className="text-xl font-semibold text-gray-800">
+                      Request a Card
+                    </DialogTitle>
+
+                    <Description className="text-sm text-gray-500">
+                      Fill out the details below to request your new card.
+                    </Description>
+
+                    {/* Form Fields */}
+                    <form className="space-y-4">
+                      {/* Dropdown: Site Claiming */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Site Claiming
+                        </label>
+                        <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                          <option value="">Select a site</option>
+                          <option value="iloilo">Iloilo Branch</option>
+                          <option value="manila">Manila Branch</option>
+                          <option value="cebu">Cebu Branch</option>
+                        </select>
+                      </div>
+
+                      {/* Payment Field */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Payment Amount
+                        </label>
+                        <input
+                          type="number"
+                          placeholder="Enter payment amount"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        />
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex justify-end gap-3 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => setIsOpen(false)}
+                          className="px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="px-4 py-2 text-sm rounded-lg bg-green-600 text-white hover:bg-green-700"
+                        >
+                          Submit Request
+                        </button>
+                      </div>
+                    </form>
+                  </DialogPanel>
+                </div>
+              </Dialog>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>

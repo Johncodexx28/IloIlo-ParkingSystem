@@ -38,7 +38,7 @@ export const adminRoutes = [
 ];
 
 export const partnerRoutes = [
-  { path: "/", element: <PartnerDashboardHome /> }, // default /Partner
+  { path: "/", element: <PartnerDashboardHome /> },
   { path: "lots", element: <ParkingLots /> },
   { path: "reservation", element: <Reservation /> },
   { path: "transaction", element: <Transaction /> },

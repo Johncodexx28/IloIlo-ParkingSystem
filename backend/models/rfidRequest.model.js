@@ -1,17 +1,16 @@
-// models/RFIDRequest.js
 import mongoose from "mongoose";
 
 const RFIDRequestSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   partner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Partner",
+    ref: "PartnerCompany",
     required: true,
   },
-  location: { type: String, required: true }, // claiming branch
+  claimingSite: { type: String, required: true },
   status: {
     type: String,
-    enum: ["pending", "approved", "rejected"],
+    enum: ["Pending", "Processing", "Ready for Pickup", "Completed"],
     default: "pending",
   },
   assignedRFID: { type: String },

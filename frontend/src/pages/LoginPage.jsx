@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, Loader, Building2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,15 +11,21 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [companyName, setCompanyName] = useState("");
-  const [userRole, setUserRole] = useState("user");
+  const [userRole, setUserRole] = useState(
+    localStorage.getItem("lastRole") || "user"
+  );
+
   const { login, isLoading } = useAuthStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem("lastRole", userRole);
+  }, [userRole]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await login(email, password, { role: userRole, companyName });
-      // ✅ redirect based on role
       if (userRole === "user") navigate("/User");
       if (userRole === "partner") navigate("/Partner");
       if (userRole === "admin") navigate("/Admin");
@@ -48,7 +54,12 @@ const LoginPage = () => {
               <div className="flex bg-gray-100 rounded-lg p-1">
                 <button
                   type="button"
-                  onClick={() => setUserRole("user")}
+                  onClick={() => {
+                    setUserRole("user");
+                    setCompanyName(""); // clear partner-only field
+                    setEmail(""); // clear email
+                    setPassword(""); // clear password
+                  }}
                   className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
                     userRole === "user"
                       ? "bg-white text-gray-900 shadow-sm"
@@ -59,7 +70,11 @@ const LoginPage = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setUserRole("partner")}
+                  onClick={() => {
+                    setUserRole("partner");
+                    setEmail(""); // clear email
+                    setPassword(""); // clear password
+                  }}
                   className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
                     userRole === "partner"
                       ? "bg-white text-gray-900 shadow-sm"
@@ -72,7 +87,6 @@ const LoginPage = () => {
             </div>
 
             <form onSubmit={handleLogin}>
-              {/* Only show Company Name if Partner is selected */}
               {userRole === "partner" && (
                 <Input
                   icon={Building2}

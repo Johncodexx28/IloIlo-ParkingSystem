@@ -59,7 +59,6 @@ const useUserStore = create((set) => ({
     }
   },
 
-  // Manual setters
   setUser: (userData) => set({ user: userData }),
   setBookings: (bookingsData) => set({ bookings: bookingsData }),
   clearUserData: () =>

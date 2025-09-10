@@ -1,6 +1,5 @@
 import { UserPlus, MapPin, Car, CreditCard, Search } from "lucide-react";
-import ReserveModal from "./Modals/ReserveModal";
-import Footer from "./Footer";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -27,10 +26,12 @@ const Hero = () => {
               <MapPin className="w-4 h-4 mr-2" />
               Reserve a Spot
             </button>
-            <button className="btn btn-neutral flex items-center gap-2">
-              <UserPlus size={20} />
-              Partner with us
-            </button>
+            <Link to="/partnership-request">
+              <button className="btn btn-neutral flex items-center gap-2">
+                <UserPlus size={20} />
+                Partner with us
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -94,19 +95,21 @@ const Hero = () => {
           {/* Left content */}
           <div className="text-center lg:text-left">
             <h2 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight">
-              Transforming Parking in <span className="text-error">Iloilo City</span>
+              Transforming Parking in{" "}
+              <span className="text-error">Iloilo City</span>
             </h2>
-            
+
             <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-              ParkLink is revolutionizing the way people find and pay for parking in Iloilo 
-              City. Our smart parking solution connects drivers with available spaces, 
-              reducing traffic congestion and making urban mobility more efficient.
+              ParkLink is revolutionizing the way people find and pay for
+              parking in Iloilo City. Our smart parking solution connects
+              drivers with available spaces, reducing traffic congestion and
+              making urban mobility more efficient.
             </p>
-            
+
             <p className="mt-4 text-lg text-gray-600 leading-relaxed">
-              With partnerships across major commercial districts, we're building a 
-              comprehensive network that serves both locals and visitors to our beautiful 
-              city.
+              With partnerships across major commercial districts, we're
+              building a comprehensive network that serves both locals and
+              visitors to our beautiful city.
             </p>
 
             <div className="mt-8">
@@ -121,17 +124,16 @@ const Hero = () => {
             <div className="w-full max-w-md h-80 bg-gray-200 rounded-2xl shadow-lg flex items-center justify-center">
               <div className="text-center text-gray-500">
                 <MapPin className="w-12 h-12 mx-auto mb-4 text-error" />
-                <p className="text-lg font-semibold">Interactive Map Placeholder</p>
+                <p className="text-lg font-semibold">
+                  Interactive Map Placeholder
+                </p>
                 <p className="text-sm mt-2">Real-time parking availability</p>
               </div>
             </div>
           </div>
         </div>
-        
       </section>
-      
     </section>
-    
   );
 };
 

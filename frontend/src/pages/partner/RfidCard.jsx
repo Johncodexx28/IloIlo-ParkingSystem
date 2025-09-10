@@ -1,47 +1,29 @@
-import React, { useState } from "react";
-import { Eye, Edit, Phone, Mail, Plus, Download, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import {
+  Eye,
+  Edit,
+  Phone,
+  Mail,
+  Plus,
+  Download,
+  Menu,
+  X,
+  CircleCheck,
+} from "lucide-react";
+import ModalForm from "../../components/Modals/ModalForm";
+import usePartnerStore from "../../store/partnerStore.js";
 
 const RfidCardManagement = () => {
-  const [requests] = useState([
-    {
-      id: "RFID-001",
-      customer: "Juan Dela Cruz",
-      email: "juan@email.com",
-      phone: "+63 912 345 6789",
-      vehicle: "ABC-123",
-      requestDate: "2024-01-15",
-      time: "10:30 AM",
-      cardType: "Standard",
-      status: "Pending",
-      rfidNumber: null,
-    },
-    {
-      id: "RFID-002",
-      customer: "Maria Santos",
-      email: "maria@email.com",
-      phone: "+63 917 654 3210",
-      vehicle: "XYZ-456",
-      requestDate: "2024-01-14",
-      time: "2:15 PM",
-      cardType: "Premium",
-      status: "Processing",
-      rfidNumber: "RF001234567",
-    },
-    {
-      id: "RFID-003",
-      customer: "Carlos Rodriguez",
-      email: "carlos@email.com",
-      phone: "+63 920 987 6543",
-      vehicle: "DEF-789",
-      requestDate: "2024-01-13",
-      time: "9:45 AM",
-      cardType: "Standard",
-      status: "Ready for Pickup",
-      rfidNumber: "RF007654321",
-    },
-  ]);
+  const { rfidRequests, fetchRFIDRequests, loading, assignUserRFIDAction } =
+    usePartnerStore();
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [activeModal, setActiveModal] = useState(null);
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  useEffect(() => {
+    fetchRFIDRequests();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -59,17 +41,17 @@ const RfidCardManagement = () => {
   };
 
   const getCardTypeColor = (type) => {
-    return type === "Premium"
-      ? "bg-purple-600 text-white"
+    return type === "Parking Access Card"
+      ? "bg-green-100 text-green-800"
       : "bg-gray-600 text-white";
   };
 
   const stats = {
-    total: requests.length,
-    pending: requests.filter((r) => r.status === "Pending").length,
-    processing: requests.filter((r) => r.status === "Processing").length,
-    ready: requests.filter((r) => r.status === "Ready for Pickup").length,
-    completed: requests.filter((r) => r.status === "Completed").length,
+    total: rfidRequests.length,
+    pending: rfidRequests.filter((r) => r.status === "Pending").length,
+    processing: rfidRequests.filter((r) => r.status === "Processing").length,
+    ready: rfidRequests.filter((r) => r.status === "Ready for Pickup").length,
+    completed: rfidRequests.filter((r) => r.status === "Completed").length,
   };
 
   return (
@@ -77,7 +59,7 @@ const RfidCardManagement = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
-          <div className="flex items-center gap-4"> 
+          <div className="flex items-center gap-4">
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
               RFID Card Requests
             </h1>
@@ -132,7 +114,7 @@ const RfidCardManagement = () => {
           <div className="bg-white rounded-lg shadow p-4">
             <h2 className="text-lg font-semibold mb-4">RFID Card Requests</h2>
           </div>
-          {requests.map((req) => (
+          {rfidRequests.map((req) => (
             <div key={req.id} className="bg-white rounded-lg shadow p-4">
               <div className="flex justify-between items-start mb-3">
                 <div>
@@ -147,7 +129,7 @@ const RfidCardManagement = () => {
                   {req.status}
                 </span>
               </div>
-              
+
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Customer:</span>
@@ -176,7 +158,7 @@ const RfidCardManagement = () => {
                   <div>{req.phone}</div>
                 </div>
               </div>
-              
+
               <div className="flex items-center justify-end gap-2">
                 <button className="p-2 hover:bg-gray-100 rounded-lg">
                   <Eye size={16} />
@@ -231,7 +213,7 @@ const RfidCardManagement = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {requests.map((req) => (
+                {rfidRequests.map((req) => (
                   <tr key={req.id}>
                     <td className="px-4 py-4 text-sm font-medium text-gray-900">
                       {req.id}
@@ -266,16 +248,35 @@ const RfidCardManagement = () => {
                     </td>
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
-                        <button className="p-1 hover:bg-gray-100 rounded">
-                          <Eye size={16} />
-                        </button>
-                        <button className="p-1 hover:bg-gray-100 rounded">
+                        <button
+                          className="p-1 hover:bg-gray-100 rounded cursor-pointer"
+                          onClick={() => {
+                            setSelectedRequest({
+                              ...req,
+                              userId: req.userId,
+                            });
+                            setActiveModal("UpdateUserRFID");
+                          }}
+                        >
                           <Edit size={16} />
                         </button>
-                        <button className="p-1 hover:bg-gray-100 rounded">
+
+                        <button
+                          className="p-1 hover:bg-gray-100 rounded cursor-pointer"
+                          onClick={() => {
+                            window.location.href = `tel:${require.phone}`;
+                          }}
+                        >
                           <Phone size={16} />
                         </button>
-                        <button className="p-1 hover:bg-gray-100 rounded">
+
+                        {/* Email User */}
+                        <button
+                          className="p-1 hover:bg-gray-100 rounded cursor-pointer"
+                          onClick={() => {
+                            window.location.href = `mailto:${req.email}`;
+                          }}
+                        >
                           <Mail size={16} />
                         </button>
                       </div>
@@ -298,19 +299,27 @@ const RfidCardManagement = () => {
             <div className="space-y-3">
               <button className="w-full flex items-center gap-3 px-3 sm:px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-left">
                 <Plus size={16} className="text-red-500 flex-shrink-0" />
-                <span className="font-medium text-sm sm:text-base">Manual RFID Request</span>
+                <span className="font-medium text-sm sm:text-base">
+                  Manual RFID Request
+                </span>
               </button>
               <button className="w-full flex items-center gap-3 px-3 sm:px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-left">
                 <span className="text-lg flex-shrink-0">📋</span>
-                <span className="font-medium text-sm sm:text-base">Bulk Card Assignment</span>
+                <span className="font-medium text-sm sm:text-base">
+                  Bulk Card Assignment
+                </span>
               </button>
               <button className="w-full flex items-center gap-3 px-3 sm:px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-left">
                 <span className="text-lg flex-shrink-0">📥</span>
-                <span className="font-medium text-sm sm:text-base">Export Card Database</span>
+                <span className="font-medium text-sm sm:text-base">
+                  Export Card Database
+                </span>
               </button>
               <button className="w-full flex items-center gap-3 px-3 sm:px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-left">
                 <span className="text-lg flex-shrink-0">⚙️</span>
-                <span className="font-medium text-sm sm:text-base">RFID Settings</span>
+                <span className="font-medium text-sm sm:text-base">
+                  RFID Settings
+                </span>
               </button>
             </div>
           </div>
@@ -352,24 +361,34 @@ const RfidCardManagement = () => {
             <div className="space-y-3">
               <div className="flex justify-between items-start py-2 border-b border-gray-100">
                 <div className="min-w-0 flex-1">
-                  <div className="font-medium text-sm truncate">Carlos Rodriguez</div>
+                  <div className="font-medium text-sm truncate">
+                    Carlos Rodriguez
+                  </div>
                   <div className="text-xs text-gray-600">RFID assigned</div>
                 </div>
-                <div className="text-xs text-gray-500 ml-2 flex-shrink-0">2h ago</div>
+                <div className="text-xs text-gray-500 ml-2 flex-shrink-0">
+                  2h ago
+                </div>
               </div>
               <div className="flex justify-between items-start py-2 border-b border-gray-100">
                 <div className="min-w-0 flex-1">
                   <div className="font-medium text-sm truncate">Ana Garcia</div>
                   <div className="text-xs text-gray-600">Card picked up</div>
                 </div>
-                <div className="text-xs text-gray-500 ml-2 flex-shrink-0">4h ago</div>
+                <div className="text-xs text-gray-500 ml-2 flex-shrink-0">
+                  4h ago
+                </div>
               </div>
               <div className="flex justify-between items-start py-2 border-b border-gray-100">
                 <div className="min-w-0 flex-1">
-                  <div className="font-medium text-sm truncate">Maria Santos</div>
+                  <div className="font-medium text-sm truncate">
+                    Maria Santos
+                  </div>
                   <div className="text-xs text-gray-600">Email sent</div>
                 </div>
-                <div className="text-xs text-gray-500 ml-2 flex-shrink-0">6h ago</div>
+                <div className="text-xs text-gray-500 ml-2 flex-shrink-0">
+                  6h ago
+                </div>
               </div>
               <button className="w-full mt-4 px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg flex items-center justify-center gap-2 text-sm">
                 <Eye size={16} />
@@ -378,6 +397,173 @@ const RfidCardManagement = () => {
             </div>
           </div>
         </div>
+
+        {/* Assign RFID Modal */}
+        <ModalForm
+          isOpen={activeModal === "UpdateUserRFID"}
+          onClose={() => setActiveModal(null)}
+          title="Assign RFID Number"
+          description="Fill in the RFID number to register and enable user access."
+          showDefaultActions={false}
+        >
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const rfidNumber = e.target.rfidNumber.value;
+
+              try {
+                await assignUserRFIDAction(selectedRequest.userId, rfidNumber);
+
+                // Optionally refresh the list after assignment
+                fetchRFIDRequests();
+
+                setActiveModal(null);
+              } catch (err) {
+                console.error("Failed to assign RFID:", err);
+              }
+            }}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Request ID */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  Request ID
+                </label>
+                <input
+                  type="text"
+                  name="requestId"
+                  value={selectedRequest?.id || ""}
+                  readOnly
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-gray-100"
+                />
+              </div>
+
+              {/* Customer */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  Customer
+                </label>
+                <input
+                  type="text"
+                  name="customer"
+                  value={selectedRequest?.customer || ""}
+                  readOnly
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-gray-100"
+                />
+              </div>
+
+              {/* Vehicle */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  Vehicle
+                </label>
+                <input
+                  type="text"
+                  name="vehicle"
+                  defaultValue={selectedRequest?.vehicle || ""}
+                  readOnly
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-gray-100"
+                />
+              </div>
+
+              {/* Date */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  Date
+                </label>
+                <input
+                  type="text"
+                  name="date"
+                  defaultValue={selectedRequest?.requestDate || ""}
+                  readOnly
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-gray-100"
+                />
+              </div>
+
+              {/* Card Type */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  Card Type
+                </label>
+                <input
+                  type="text"
+                  name="cardType"
+                  defaultValue={selectedRequest?.cardType || ""}
+                  readOnly
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-gray-100"
+                />
+              </div>
+
+              {/* Status */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  Status
+                </label>
+                <input
+                  type="text"
+                  name="status"
+                  defaultValue={selectedRequest?.status || ""}
+                  readOnly
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-gray-100"
+                />
+              </div>
+
+              {/* RFID Number (editable) */}
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-semibold text-gray-700 mb-2 tracking-wide">
+                  RFID Number
+                </label>
+                <div className="relative">
+                  {/* Input field */}
+                  <input
+                    type="text"
+                    name="rfidNumber"
+                    placeholder="Enter or scan RFID number"
+                    defaultValue={selectedRequest?.rfidNumber || ""}
+                    autoFocus
+                    className="w-full rounded-xl border border-green-400 bg-green-50 px-4 py-3 text-sm shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-400 focus:ring-offset-1 transition"
+                  />
+                  {/* Decorative icon */}
+                  <span className="absolute inset-y-0 right-3 flex items-center text-green-500">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-gray-500">
+                  Scan or type the RFID number to assign it to this user.
+                </p>
+              </div>
+            </div>
+            {/* custom actions */}
+            <div className="flex justify-end gap-3 pt-4">
+              <button
+                type="button"
+                onClick={() => setActiveModal(null)}
+                className="px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-5 py-2 text-sm font-medium rounded-lg bg-green-600 text-white shadow-md hover:bg-green-700"
+              >
+                Assign RFID
+              </button>
+            </div>
+          </form>
+        </ModalForm>
       </div>
     </div>
   );

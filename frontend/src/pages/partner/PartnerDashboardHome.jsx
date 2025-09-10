@@ -1,8 +1,18 @@
-import React from 'react';
-import Revenuechart from '../../components/charts/PartnerRevenueChart';
-import { 
-  Bell, RefreshCw, DollarSign, TrendingUp, MapPin, Calendar, Star, CreditCard, QrCode, Plus, FileDown, BarChart3 } from 'lucide-react';
-
+import Revenuechart from "../../components/charts/PartnerRevenueChart";
+import {
+  Bell,
+  RefreshCw,
+  DollarSign,
+  TrendingUp,
+  MapPin,
+  Calendar,
+  Star,
+  CreditCard,
+  QrCode,
+  Plus,
+  FileDown,
+  BarChart3,
+} from "lucide-react";
 
 const Dashboard = () => {
   return (
@@ -10,7 +20,9 @@ const Dashboard = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard Overview</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+            Dashboard Overview
+          </h1>
           <p className="text-gray-600 mt-1 text-sm sm:text-base">
             Welcome back! Here's your parking business summary.
           </p>
@@ -34,14 +46,22 @@ const Dashboard = () => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
-              <span className="text-xs sm:text-sm font-medium text-gray-600">Earnings Today</span>
+              <span className="text-xs sm:text-sm font-medium text-gray-600">
+                Earnings Today
+              </span>
             </div>
             <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
           </div>
           <div className="space-y-2">
-            <div className="text-2xl sm:text-3xl font-bold text-gray-900">₱8,450</div>
-            <div className="text-xs sm:text-sm text-green-600">+12.5% from yesterday</div>
-            <div className="text-xs text-gray-500">Commission: ₱1,268 (15%)</div>
+            <div className="text-2xl sm:text-3xl font-bold text-gray-900">
+              ₱8,450
+            </div>
+            <div className="text-xs sm:text-sm text-green-600">
+              +12.5% from yesterday
+            </div>
+            <div className="text-xs text-gray-500">
+              Commission: ₱1,268 (15%)
+            </div>
           </div>
         </div>
 
@@ -50,13 +70,19 @@ const Dashboard = () => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />
-              <span className="text-xs sm:text-sm font-medium text-gray-600">Monthly Revenue</span>
+              <span className="text-xs sm:text-sm font-medium text-gray-600">
+                Monthly Revenue
+              </span>
             </div>
             <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
           </div>
           <div className="space-y-2">
-            <div className="text-2xl sm:text-3xl font-bold text-gray-900">₱234,680</div>
-            <div className="text-xs sm:text-sm text-green-600">+8.2% from last month</div>
+            <div className="text-2xl sm:text-3xl font-bold text-gray-900">
+              ₱234,680
+            </div>
+            <div className="text-xs sm:text-sm text-green-600">
+              +8.2% from last month
+            </div>
             <div className="text-xs text-gray-500">
               Net: ₱199,478 (after commission)
             </div>
@@ -75,8 +101,12 @@ const Dashboard = () => {
             <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
           </div>
           <div className="space-y-2">
-            <div className="text-2xl sm:text-3xl font-bold text-gray-900">3</div>
-            <div className="text-xs sm:text-sm text-gray-600">1,250 total spots available</div>
+            <div className="text-2xl sm:text-3xl font-bold text-gray-900">
+              3
+            </div>
+            <div className="text-xs sm:text-sm text-gray-600">
+              1,250 total spots available
+            </div>
             <div className="text-xs text-gray-500">87% average occupancy</div>
           </div>
         </div>
@@ -93,8 +123,12 @@ const Dashboard = () => {
             <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
           </div>
           <div className="space-y-2">
-            <div className="text-2xl sm:text-3xl font-bold text-gray-900">156</div>
-            <div className="text-xs sm:text-sm text-green-600">+15.3% from yesterday</div>
+            <div className="text-2xl sm:text-3xl font-bold text-gray-900">
+              156
+            </div>
+            <div className="text-xs sm:text-sm text-green-600">
+              +15.3% from yesterday
+            </div>
             <div className="text-xs text-gray-500">12 pending confirmation</div>
           </div>
         </div>
@@ -116,23 +150,35 @@ const Dashboard = () => {
 
           <div className="space-y-3 sm:space-y-4">
             <div className="flex justify-between items-center py-2">
-              <span className="text-sm sm:text-base text-gray-700">Gross Revenue (Today)</span>
-              <span className="font-semibold text-gray-900 text-sm sm:text-base">₱8,450</span>
+              <span className="text-sm sm:text-base text-gray-700">
+                Gross Revenue (Today)
+              </span>
+              <span className="font-semibold text-gray-900 text-sm sm:text-base">
+                ₱8,450
+              </span>
             </div>
 
             <div className="flex justify-between items-center py-2 border-b border-gray-100">
               <div>
-                <div className="text-sm sm:text-base text-gray-700">System Commission (15%)</div>
+                <div className="text-sm sm:text-base text-gray-700">
+                  System Commission (15%)
+                </div>
                 <div className="text-xs text-gray-500">
                   Platform fee + Payment processing
                 </div>
               </div>
-              <span className="font-semibold text-red-600 text-sm sm:text-base">-₱1,268</span>
+              <span className="font-semibold text-red-600 text-sm sm:text-base">
+                -₱1,268
+              </span>
             </div>
 
             <div className="flex justify-between items-center py-3 bg-green-50 px-3 rounded-lg">
-              <span className="font-medium text-gray-900 text-sm sm:text-base">Your Net Earnings</span>
-              <span className="font-bold text-green-600 text-base sm:text-lg">₱7,182</span>
+              <span className="font-medium text-gray-900 text-sm sm:text-base">
+                Your Net Earnings
+              </span>
+              <span className="font-bold text-green-600 text-base sm:text-lg">
+                ₱7,182
+              </span>
             </div>
           </div>
         </div>
@@ -145,10 +191,14 @@ const Dashboard = () => {
               Customer Satisfaction
             </h2>
           </div>
-          <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">Feedback and ratings</p>
+          <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">
+            Feedback and ratings
+          </p>
 
           <div className="text-center mb-4 sm:mb-6">
-            <div className="text-4xl sm:text-5xl font-bold text-gray-900 mb-2">4.8</div>
+            <div className="text-4xl sm:text-5xl font-bold text-gray-900 mb-2">
+              4.8
+            </div>
             <div className="flex justify-center mb-2">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
@@ -157,25 +207,39 @@ const Dashboard = () => {
                 />
               ))}
             </div>
-            <div className="text-xs sm:text-sm text-gray-600">Based on 342 reviews</div>
+            <div className="text-xs sm:text-sm text-gray-600">
+              Based on 342 reviews
+            </div>
           </div>
 
           <div className="space-y-2 sm:space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm text-gray-600">Cleanliness</span>
-              <span className="text-xs sm:text-sm font-medium text-gray-900">4.9</span>
+              <span className="text-xs sm:text-sm text-gray-600">
+                Cleanliness
+              </span>
+              <span className="text-xs sm:text-sm font-medium text-gray-900">
+                4.9
+              </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm text-gray-600">Accessibility</span>
-              <span className="text-xs sm:text-sm font-medium text-gray-900">4.7</span>
+              <span className="text-xs sm:text-sm text-gray-600">
+                Accessibility
+              </span>
+              <span className="text-xs sm:text-sm font-medium text-gray-900">
+                4.7
+              </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-xs sm:text-sm text-gray-600">Security</span>
-              <span className="text-xs sm:text-sm font-medium text-gray-900">4.8</span>
+              <span className="text-xs sm:text-sm font-medium text-gray-900">
+                4.8
+              </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-xs sm:text-sm text-gray-600">Pricing</span>
-              <span className="text-xs sm:text-sm font-medium text-gray-900">4.6</span>
+              <span className="text-xs sm:text-sm font-medium text-gray-900">
+                4.6
+              </span>
             </div>
           </div>
         </div>
@@ -208,24 +272,34 @@ const Dashboard = () => {
               <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-1">
                 Quick Actions
               </h2>
-              <p className="text-xs sm:text-sm text-gray-600">Manage your parking business</p>
+              <p className="text-xs sm:text-sm text-gray-600">
+                Manage your parking business
+              </p>
             </div>
             <div className="grid grid-cols-2 xl:grid-cols-1 gap-2">
               <button className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors">
                 <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                <span className="font-medium text-xs sm:text-sm xl:text-base">Request Payout</span>
+                <span className="font-medium text-xs sm:text-sm xl:text-base">
+                  Request Payout
+                </span>
               </button>
               <button className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                 <QrCode className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 flex-shrink-0" />
-                <span className="font-medium text-gray-900 text-xs sm:text-sm xl:text-base">Generate QR</span>
+                <span className="font-medium text-gray-900 text-xs sm:text-sm xl:text-base">
+                  Generate QR
+                </span>
               </button>
               <button className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                 <Plus className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 flex-shrink-0" />
-                <span className="font-medium text-gray-900 text-xs sm:text-sm xl:text-base">Add New Lot</span>
+                <span className="font-medium text-gray-900 text-xs sm:text-sm xl:text-base">
+                  Add New Lot
+                </span>
               </button>
               <button className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                 <FileDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 flex-shrink-0" />
-                <span className="font-medium text-gray-900 text-xs sm:text-sm xl:text-base">Download Report</span>
+                <span className="font-medium text-gray-900 text-xs sm:text-sm xl:text-base">
+                  Download Report
+                </span>
               </button>
             </div>
           </div>
