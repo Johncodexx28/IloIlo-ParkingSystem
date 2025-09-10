@@ -137,7 +137,7 @@ const UserDashboard = () => {
             <PhilippinePeso className="w-5 h-5 text-gray-400" />
           </div>
           <div className="space-y-1">
-            <p className="text-3xl font-bold text-gray-900">₱4,800</p>
+            <p className="text-3xl font-bold text-gray-900">0</p>
             <p className="text-sm text-gray-500">Average ₱200 per booking</p>
           </div>
         </div>
@@ -151,7 +151,7 @@ const UserDashboard = () => {
             <Heart className="w-5 h-5 text-gray-400" />
           </div>
           <div className="space-y-1">
-            <p className="text-3xl font-bold text-gray-900">3</p>
+            <p className="text-3xl font-bold text-gray-900">0</p>
             <p className="text-sm text-gray-500">Saved for quick booking</p>
           </div>
         </div>
@@ -165,7 +165,7 @@ const UserDashboard = () => {
             <TrendingUp className="w-5 h-5 text-gray-400" />
           </div>
           <div className="space-y-1">
-            <p className="text-3xl font-bold text-gray-900">7 days</p>
+            <p className="text-3xl font-bold text-gray-900">0 days</p>
             <p className="text-sm text-gray-500">Consecutive bookings</p>
           </div>
         </div>

@@ -14,6 +14,7 @@ import {
   BarChart3,
 } from "lucide-react";
 
+
 const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-3 sm:p-4 md:p-6">
@@ -45,12 +46,10 @@ const Dashboard = () => {
         <div className="bg-white rounded-lg p-4 sm:p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
-              <span className="text-xs sm:text-sm font-medium text-gray-600">
-                Earnings Today
-              </span>
+              <PhilippinePeso className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
+              <span className="text-xs sm:text-sm font-medium text-gray-600">Earnings Today</span>
             </div>
-            <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
+            <PhilippinePeso className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
           </div>
           <div className="space-y-2">
             <div className="text-2xl sm:text-3xl font-bold text-gray-900">
