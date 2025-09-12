@@ -12,7 +12,9 @@ import {
   PhilippinePeso,
   CreditCard,
   LifeBuoy,
-  LogOut,
+  Book,
+  FileClock,
+  User,
 } from "lucide-react";
 
 export const adminMenu = [
@@ -80,15 +82,15 @@ export const userMenu = [
   {
     name: "My Bookings",
     path: "/User/my-bookings",
-    icon: <Settings size={18} />,
+    icon: <Book size={18} />,
   },
   {
     name: "Payment & Wallets",
     path: "/User/payment",
-    icon: <Settings size={18} />,
+    icon: <PhilippinePeso size={18} />,
   },
-  { name: "RFID Card", path: "/User/rfid", icon: <Settings size={18} /> },
-  { name: "History", path: "/User/history", icon: <Settings size={18} /> },
+  { name: "RFID Card", path: "/User/rfid", icon: <CreditCard size={18} /> },
+  { name: "History", path: "/User/history", icon: <FileClock size={18} /> },
   {
     name: "Help & Support",
     path: "/User/help-support",
@@ -97,6 +99,6 @@ export const userMenu = [
   {
     name: "Profile Settings",
     path: "/User/profile-settings",
-    icon: <Settings size={18} />,
+    icon: <User size={18} />,
   },
 ];

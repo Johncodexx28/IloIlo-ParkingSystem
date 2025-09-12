@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import useAuthStore from "../../store/authStore.js";
 import useUserStore from "../../store/userStore.js";
 
-
 import {
   Calendar,
   PhilippinePeso,
@@ -85,7 +84,6 @@ const UserDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-     
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
@@ -115,58 +113,66 @@ const UserDashboard = () => {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Total Bookings */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <div className="bg-warning p-6 rounded-xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-gray-600 text-sm font-medium">
+            <h3 className="text-white-600 text-sm font-medium">
               Total Bookings
             </h3>
-            <Calendar className="w-5 h-5 text-gray-400" />
+            <Calendar className="w-5 h-5 text-dark-400" />
           </div>
           <div className="space-y-1">
             <p className="text-3xl font-bold text-gray-900">
               {bookingsCount || 0}
             </p>
-            <p className="text-sm text-green-600">+3 this month</p>
+            <p className="text-sm rounded-xl text-center text-dark-600 bg-white w-fit  px-3">
+              +3 this month
+            </p>
           </div>
         </div>
 
         {/* Total Spent */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <div className="bg-info p-6 rounded-xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-gray-600 text-sm font-medium">Total Spent</h3>
-            <PhilippinePeso className="w-5 h-5 text-gray-400" />
+            <PhilippinePeso className="w-5 h-5 text-dark-400" />
           </div>
           <div className="space-y-1">
             <p className="text-3xl font-bold text-gray-900">0</p>
-            <p className="text-sm text-gray-500">Average ₱200 per booking</p>
+            <p className="text-sm rounded-xl text-center text-dark-600 bg-white w-fit px-3">
+              Average ₱200 per booking
+            </p>
           </div>
         </div>
 
         {/* Favorite Spots */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <div className="bg-success p-6 rounded-xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-gray-600 text-sm font-medium">
               Favorite Spots
             </h3>
-            <Heart className="w-5 h-5 text-gray-400" />
+            <Heart className="w-5 h-5 text-dark-400" />
           </div>
           <div className="space-y-1">
             <p className="text-3xl font-bold text-gray-900">0</p>
-            <p className="text-sm text-gray-500">Saved for quick booking</p>
+            <p className="text-sm rounded-xl text-center text-dark-600 bg-white w-fit px-3">
+              Saved for quick booking
+            </p>
           </div>
         </div>
 
         {/* Current Streak */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <div className="bg-red-300 p-6 rounded-xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-gray-600 text-sm font-medium">
               Current Streak
             </h3>
-            <TrendingUp className="w-5 h-5 text-gray-400" />
+            <TrendingUp className="w-5 h-5 text-dark-400" />
           </div>
           <div className="space-y-1">
             <p className="text-3xl font-bold text-gray-900">0 days</p>
-            <p className="text-sm text-gray-500">Consecutive bookings</p>
+            <p className="text-sm rounded-xl text-center text-dark-600 bg-white w-fit px-3">
+              Consecutive bookings
+            </p>
           </div>
         </div>
       </div>
@@ -176,7 +182,7 @@ const UserDashboard = () => {
         {/* Current Parking & Recent Bookings */}
         <div className="lg:col-span-2 space-y-8">
           {/* Current Parking */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="bg-green-100 rounded-xl shadow-sm border border-gray-100">
             <div className="p-6 border-b border-gray-100">
               <h2 className="text-xl font-semibold text-gray-900">
                 Current Parking

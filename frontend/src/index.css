@@ -24,3 +24,7 @@
 .red {
   @apply bg-[#ff0000];
 }
+
+:root {
+  font-family: "Red Hat Display", sans-serif;
+}

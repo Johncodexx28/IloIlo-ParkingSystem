@@ -6,6 +6,7 @@ import Input from "../components/Input.jsx";
 import { useAuthStore } from "../store/authStore";
 import logo from "../assets/parking-sign.png";
 import { Toaster } from "react-hot-toast";
+import Navbar from "../components/Navbar";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -36,6 +37,7 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex">
+      <Navbar forceDark />
       <div className="w-full flex items-center justify-center p-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

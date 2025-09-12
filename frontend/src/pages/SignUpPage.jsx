@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter.jsx";
 import logo from "../assets/parking-sign.png";
+import Navbar from "../components/Navbar";
 
 const SignUpPage = () => {
   const [fullname, setfullname] = useState("");
@@ -30,11 +31,12 @@ const SignUpPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+      <Navbar forceDark />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-md w-full bg-white rounded-lg shadow-2xl overflow-hidden"
+        className="max-w-md w-full bg-white rounded-lg shadow-2xl overflow-hidden mt-10"
       >
         <div className="p-8">
           <h2 className="text-3xl font-semibold mb-6 text-gray-800 flex items-center justify-center gap-1">

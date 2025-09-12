@@ -7,6 +7,7 @@ import {
   Plus,
   Download,
   Menu,
+  Loader,
   X,
   CircleCheck,
 } from "lucide-react";
@@ -22,8 +23,6 @@ const RfidCardManagement = () => {
   useEffect(() => {
     fetchRFIDRequests();
   }, []);
-
-  if (loading) return <p>Loading...</p>;
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -557,9 +556,14 @@ const RfidCardManagement = () => {
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 text-sm font-medium rounded-lg bg-green-600 text-white shadow-md hover:bg-green-700"
+                disabled={loading}
+                className="px-5 py-2 text-sm font-medium rounded-lg bg-green-600 text-white shadow-md hover:bg-green-700 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Assign RFID
+                {loading ? (
+                  <Loader className="w-4 h-4 animate-spin" />
+                ) : (
+                  "Assign RFID"
+                )}
               </button>
             </div>
           </form>

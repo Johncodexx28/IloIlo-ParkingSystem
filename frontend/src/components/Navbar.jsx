@@ -2,24 +2,27 @@ import logo from "../assets/parking-sign.png";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const Navbar = () => {
+const Navbar = ({ forceDark = false }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const textColor = forceDark || scrolled ? "text-black" : "text-white";
+
   return (
-    <div className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-        : 'bg-white/90 backdrop-blur-sm shadow-md'
-    }`}>
+    <div
+      className={`fixed top-0 w-full z-50 transition-all duration-300 shadow-lg ${
+        scrolled
+          ? "bg-white/95 backdrop-blur-md shadow-lg"
+          : "bg-transparent/90 backdrop-blur-sm"
+      }`}
+    >
       <div className="navbar max-w-7xl mx-auto px-4">
         <div className="navbar-start">
           {/* Mobile Dropdown */}
@@ -27,8 +30,8 @@ const Navbar = () => {
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none" 
+                className={`h-6 w-6 transition-colors ${textColor}`}
+                fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
@@ -58,21 +61,25 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <div className="flex items-center gap-2 ml-2">
-            <img
-              src={logo}
-              alt="IloIlo ParkLink Logo"
-              className="w-8 h-8 object-contain"
-            />
-            <h1 className="font-bold text-lg text-black hidden sm:block">
-              P-Parking IloIlo
-            </h1>
-          </div>
+
+          {/* Logo + Title */}
+          <Link to="/">
+            <div className="flex items-center gap-2 ml-2">
+              <img src={logo} alt="IloIlo ParkLink Logo" />
+              <h1
+                className={`font-extrabold font-[Montserrat,Red Hat Display] text-lg hidden sm:block transition-colors ${textColor}`}
+              >
+                P FINDER
+              </h1>
+            </div>
+          </Link>
         </div>
 
         {/* Desktop Menu */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-black font-medium">
+          <ul
+            className={`menu menu-horizontal px-1 font-medium transition-colors ${textColor}`}
+          >
             <li>
               <a className="hover:text-red-400 transition-colors">Home</a>
             </li>
@@ -88,11 +95,18 @@ const Navbar = () => {
           </ul>
         </div>
 
+        {/* Buttons */}
         <div className="navbar-end gap-2">
-          <Link to="/Login" className="btn btn-neutral text-white lg:w-[80px] hover:scale-105 transition-transform">
+          <Link
+            to="/Login"
+            className="btn btn-neutral text-white lg:w-[80px] hover:scale-105 transition-transform"
+          >
             Login
           </Link>
-          <Link to="/Signup" className="btn btn-error text-white lg:w-[80px] hover:scale-105 transition-transform">
+          <Link
+            to="/Signup"
+            className="btn btn-error text-white lg:w-[80px] hover:scale-105 transition-transform"
+          >
             Signup
           </Link>
         </div>

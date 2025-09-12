@@ -123,7 +123,7 @@ const TransformingParking = () => {
 
           <motion.div className="mt-8" variants={textVariants}>
             <motion.button
-              className="btn btn-error text-white px-8 py-3 text-lg"
+              className="btn btn-error text-white px-6 py-3 text-md"
               variants={buttonVariants}
               whileHover="hover"
               whileTap="tap"

@@ -18,13 +18,13 @@ const SideBar = () => {
 
   if (location.pathname.startsWith("/Admin")) {
     menu = adminMenu;
-    title = "P-Parking IloIlo";
+    title = "P FINDER";
   } else if (location.pathname.startsWith("/Partner")) {
     menu = partnerMenu;
-    title = "P-Parking IloIlo";
+    title = "P FINDER";
   } else if (location.pathname.startsWith("/User")) {
     menu = userMenu;
-    title = "P-Parking IloIlo";
+    title = "P FINDER";
   }
 
   const toggleSidebar = () => {
@@ -38,7 +38,7 @@ const SideBar = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      await logout(); 
+      await logout();
       navigate("/");
     } catch (err) {
       console.error("Logout failed:", err);

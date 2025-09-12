@@ -1,12 +1,7 @@
 import { useState } from "react";
-import {
-  Description,
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-  Field,
-} from "@headlessui/react";
-import { AnimatePresence, motion } from "framer-motion";
+import ActionMenu from "../../components/ActionMenu.jsx";
+import ModalForm from "../../components/Modals/ModalForm";
+import useUserStore from "../../store/userStore.js";
 import {
   Car,
   Plus,
@@ -15,9 +10,27 @@ import {
   ParkingCircle,
   Navigation,
   QrCode,
+  Loader,
+  EllipsisVertical,
 } from "lucide-react";
+import { useEffect } from "react";
 
 const RFIDCardManagement = () => {
+  const {
+    loading,
+    fetchRequests,
+    createRFIDRequest,
+    error,
+    request,
+    partners,
+    fetchPartners,
+  } = useUserStore();
+  const [activeModal, setActiveModal] = useState(null);
+
+  useEffect(() => {
+    fetchPartners();
+  }, []);
+
   const [cards] = useState([
     {
       id: 1,
@@ -50,7 +63,7 @@ const RFIDCardManagement = () => {
             RFID Card Management
           </h1>
           <button
-            onClick={() => setIsOpen(true)}
+            onClick={() => setActiveModal("RequestRFID")}
             className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-colors"
           >
             <Plus size={20} />
@@ -234,97 +247,139 @@ const RFIDCardManagement = () => {
                   <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
                     {request.status}
                   </span>
-                  <button className="bg-gray-900 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-colors">
-                    <Navigation size={16} />
-                    Get Directions
+                  <button className=" text-gray-900 px-4 py-2 rounded-lg flex items-center gap-2 ">
+                    <ActionMenu />
                   </button>
                 </div>
               </div>
             ))}
           </div>
           {/* Modals */}
-          <AnimatePresence>
-            {isOpen && (
-              <Dialog
-                static
-                open={isOpen}
-                onClose={() => setIsOpen(false)}
-                className="relative z-50"
-              >
-                {/* Backdrop */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="fixed inset-0 bg-black/10 "
-                />
 
-                {/* Modal container */}
-                <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-                  <DialogPanel
-                    as={motion.div}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg space-y-6"
-                  >
-                    <DialogTitle className="text-xl font-semibold text-gray-800">
-                      Request a Card
-                    </DialogTitle>
+          <ModalForm
+            isOpen={activeModal === "RequestRFID"}
+            onClose={() => setActiveModal(null)}
+            title="Request RFID Card"
+            description="Fill in the details below to request an RFID card."
+            showDefaultActions={false}
+          >
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
 
-                    <Description className="text-sm text-gray-500">
-                      Fill out the details below to request your new card.
-                    </Description>
+                const siteValue = e.target.claimingSite.value; // e.g., "partnerId|SiteName"
+                const [partnerId, claimingSite] = siteValue.split("|");
 
-                    {/* Form Fields */}
-                    <form className="space-y-4">
-                      {/* Dropdown: Site Claiming */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Site Claiming
-                        </label>
-                        <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                          <option value="">Select a site</option>
-                          <option value="iloilo">Iloilo Branch</option>
-                          <option value="manila">Manila Branch</option>
-                          <option value="cebu">Cebu Branch</option>
-                        </select>
-                      </div>
+                if (!partnerId || !claimingSite) {
+                  console.error("Invalid claiming site value");
+                  return;
+                }
 
-                      {/* Payment Field */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Payment Amount
-                        </label>
-                        <input
-                          type="number"
-                          placeholder="Enter payment amount"
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                        />
-                      </div>
-
-                      {/* Actions */}
-                      <div className="flex justify-end gap-3 pt-2">
-                        <button
-                          type="button"
-                          onClick={() => setIsOpen(false)}
-                          className="px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="submit"
-                          className="px-4 py-2 text-sm rounded-lg bg-green-600 text-white hover:bg-green-700"
-                        >
-                          Submit Request
-                        </button>
-                      </div>
-                    </form>
-                  </DialogPanel>
+                try {
+                  await createRFIDRequest(partnerId, claimingSite); // pass explicitly
+                  setActiveModal(null);
+                } catch (err) {
+                  console.error("Failed to request RFID:", err);
+                }
+              }}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Customer Name */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="fullname"
+                    placeholder="Enter your full name"
+                    required
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:ring-2 focus:ring-red-400"
+                  />
                 </div>
-              </Dialog>
-            )}
-          </AnimatePresence>
+
+                {/* Vehicle */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Vehicle
+                  </label>
+                  <input
+                    type="text"
+                    name="vehicle"
+                    placeholder="Enter vehicle model / plate number"
+                    required
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:ring-2 focus:ring-red-400"
+                  />
+                </div>
+
+                {/* Company Name */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Company Name
+                  </label>
+                  <select
+                    name="partnerId"
+                    required
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-white
+               focus:border-red-500 focus:ring-2 focus:ring-red-400"
+                  >
+                    <option value="">Select a Company</option>
+                    {partners.map((partner) => (
+                      <option key={partner._id} value={partner._id}>
+                        {partner.companyName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Claiming Site Type */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Claiming Site
+                  </label>
+                  <select
+                    name="claimingSite"
+                    required
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-white focus:border-red-500 focus:ring-2 focus:ring-red-400"
+                  >
+                    <option value="">Select a claiming site</option>
+                    {partners.flatMap((partner) =>
+                      partner.claimingSites.map((site) => (
+                        <option
+                          key={`${partner._id}-${site}`}
+                          value={`${partner._id}|${site}`}
+                        >
+                          {partner.companyName} – {site}
+                        </option>
+                      ))
+                    )}
+                  </select>
+                </div>
+              </div>
+
+              {/* custom actions */}
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setActiveModal(null)}
+                  className="px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="px-5 py-2 text-sm font-medium rounded-lg bg-red-600 text-white shadow-md hover:bg-red-700 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {loading ? (
+                    <Loader className="w-4 h-4 animate-spin" />
+                  ) : (
+                    "Request RFID"
+                  )}
+                </button>
+              </div>
+            </form>
+          </ModalForm>
         </div>
       </div>
     </div>
